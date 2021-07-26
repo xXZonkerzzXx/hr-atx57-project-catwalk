@@ -11,7 +11,9 @@ class App extends React.Component {
     return (
       <main>
         {/* <Overview />
-        <Reviews /> */}
+        <Reviews />
+        <Questions />
+        <Related /> */}
       </main>
     );
   }
