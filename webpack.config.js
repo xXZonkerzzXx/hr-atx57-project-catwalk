@@ -3,17 +3,15 @@ var webpack = require('webpack');
 module.exports = {
   entry: './src/components/App.jsx',
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'app.bundle.js'
   },
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
-        test: /.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015']
-        }
+        test: /.jsx/,
+        use: 'babel-loader'
       }
     ]
   },
