@@ -350,4 +350,4 @@ MigrationBackup/
 .ionide/
 
 # Ignore for Github API
-./config.js
+config.js
