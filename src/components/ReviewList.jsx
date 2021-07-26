@@ -8,7 +8,7 @@ class ReviewList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="review-list">
         <ReviewTile />
       </div>
     );
