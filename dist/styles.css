@@ -1,6 +1,6 @@
 #review-list {
   border: 1px solid black;
-  height: 510px;
+  height: auto;
   width: 75%;
   margin-left: 12.5%;
   margin-right: 12.5%;
@@ -8,13 +8,13 @@
 #review-tile {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 1fr 1fr 2fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 0.5fr;
   border: 1px solid black;
-  height: auto;
+  height: 250px;
   width: 90%;
   line-height: 10px;
   margin: 40px 5% 40px 5%;
-  padding: 5px;
+  padding: 20px;
 }
 #star-rating {
   grid-column: 1 / 2;
@@ -39,6 +39,8 @@
 #seller-response {
   grid-column: 1 / 4;
   grid-row: 5 / 6;
+  background-color: #BEBEBE;
+  padding: 20px;
 }
 #is-helpful {
   grid-column: 1 / 2;

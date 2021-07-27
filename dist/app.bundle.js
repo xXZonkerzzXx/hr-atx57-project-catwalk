@@ -8524,6 +8524,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReviewTile.jsx */ "./src/components/ReviewTile.jsx");
+/* harmony import */ var _reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../reviewDummyData.js */ "./reviewDummyData.js");
+/* harmony import */ var _reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8549,23 +8551,92 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ReviewList = /*#__PURE__*/function (_React$Component) {
   _inherits(ReviewList, _React$Component);
 
   var _super = _createSuper(ReviewList);
 
   function ReviewList(props) {
+    var _this;
+
     _classCallCheck(this, ReviewList);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      reviews: (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results)
+    };
+    _this.onSortChange = _this.onSortChange.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(ReviewList, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        reviews: (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results)
+      });
+      var rating = 0;
+
+      for (var i = 0; i < (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results.length); i++) {
+        rating += (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results)[i].rating;
+      }
+
+      var divisor = this.state.reviews.length;
+      var avgRating = rating / divisor;
+      console.log(avgRating);
+      this.setState({
+        avgRating: avgRating
+      });
+    }
+  }, {
+    key: "onSortChange",
+    value: function onSortChange(event) {
+      if (event.target.value === 'relevant') {
+        var sortedReviews = this.state.reviews.sort(function (a, b) {
+          if (a.date !== b.date) {
+            console.log(a.date);
+            console.log(b.date);
+            return a.date - b.date;
+          } else {
+            return b.helpfulness - a.helpfulness;
+          }
+        });
+        this.setState({
+          reviews: sortedReviews
+        });
+        console.log('Reviews sorted');
+      } else if (event.target.value === 'helpful') {
+        var sortedReviews = this.state.reviews.sort(function (a, b) {
+          return b.helpfulness - a.helpfulness;
+        });
+        console.log(sortedReviews);
+        this.setState({
+          reviews: sortedReviews
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         id: "review-list"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, null));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, this.state.reviews.length - 1, " reviews"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        htmlFor: "sort-list"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("b", null, "Sorted By:  ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
+        name: "sort-list",
+        onChange: this.onSortChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "relevant"
+      }, "Relevant"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "newest"
+      }, "Newest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "helpful"
+      }, "Helpful")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
+        review: this.state.reviews[0]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
+        review: this.state.reviews[1]
+      }));
     }
   }]);
 
@@ -8628,44 +8699,79 @@ var ReviewTile = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ReviewTile);
 
     _this = _super.call(this, props);
-    _this.state = {};
+    _this.state = {
+      helpful: _this.props.review.helpfulness,
+      reviewSummary: _this.props.review.summary,
+      rating: _this.props.review.rating,
+      response: _this.props.review.response,
+      date: new Date(_this.props.review.date),
+      helpfulClicked: false,
+      reported: false
+    };
     _this.onHelpfulClick = _this.onHelpfulClick.bind(_assertThisInitialized(_this));
+    _this.onReportClick = _this.onReportClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ReviewTile, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.review.reviewer_name !== prevProps.review.reviewer_name) {
+        this.setState({
+          date: new Date(this.props.review.date)
+        });
+      }
+    }
+  }, {
     key: "onHelpfulClick",
     value: function onHelpfulClick(event) {
-      console.log((_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_1___default()));
+      this.setState({
+        helpful: this.state.helpful + 1,
+        helpfulClicked: true
+      });
+    }
+  }, {
+    key: "onReportClick",
+    value: function onReportClick() {
+      this.setState({
+        reported: true
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        id: "review-tile"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
-        name: "half-rating-read",
-        size: "large",
-        defaultValue: 2.75,
-        precision: 1 / 4,
-        readOnly: true
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "review-date"
-      }, "Author of review and Review Date goes here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "review-summary"
-      }, "Review Summary goes here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "review-body"
-      }, "Review Body Goes here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "recommended"
-      }, "If author recommends product."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "seller-response"
-      }, "If seller has responded to review, place here"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "is-helpful"
-      }, " Helpful? ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-        onClick: this.onHelpfulClick
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "Yes")), " (#ofHelpfuls)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-        id: "report-review"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "Report")));
+      if (!this.state.reported) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          id: "review-tile"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
+          name: "half-rating-read",
+          size: "large",
+          defaultValue: this.props.review.rating,
+          precision: 1 / 4,
+          readOnly: true
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "review-date"
+        }, this.props.review.reviewer_name, " ", new Intl.DateTimeFormat('en-US', {
+          dateStyle: 'long'
+        }).format(this.state.date)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "review-summary"
+        }, this.props.review.summary), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "review-body"
+        }, this.props.review.body), this.props.review.recommend ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "recommended"
+        }, "\u2713 I recommend this product!") : null, this.props.review.response ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "seller-response"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("b", null, "Response from seller:"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("br", null), this.props.review.response) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "is-helpful"
+        }, " Helpful? ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+          onClick: !this.state.helpfulClicked ? this.onHelpfulClick : null
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "Yes")), " (", this.props.review.helpfulness, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+          id: "report-review",
+          onClick: this.onReportClick
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("u", null, "Report")));
+      } else {
+        return null;
+      }
     }
   }]);
 
@@ -41111,7 +41217,7 @@ module.exports = {
       "recommend": false,
       "response": null,
       "body": "Comfortable and practical.",
-      "date": "2019-04-14T00:00:00.000Z",
+      "date": "2019-04-14T00:00:00.001Z",
       "reviewer_name": "shortandsweeet",
       "helpfulness": 5,
       "photos": [{
@@ -41129,12 +41235,12 @@ module.exports = {
       "review_id": 3,
       "rating": 4,
       "summary": "I am liking these glasses",
-      "recommend": false,
+      "recommend": true,
       "response": "Glad you're enjoying the product!",
       "body": "They are very dark. But that's good because I'm in very sunny spots",
-      "date": "2019-06-23T00:00:00.000Z",
+      "date": "2019-06-23T00:00:00.001Z",
       "reviewer_name": "bigbrotherbenjamin",
-      "helpfulness": 5,
+      "helpfulness": 6,
       "photos": [],
     },
     // ...
