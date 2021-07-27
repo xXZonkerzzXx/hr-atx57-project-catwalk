@@ -4,6 +4,9 @@
     "build": "npx webpack -w"
   },
   "dependencies": {
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "@material-ui/core": "^5.0.0-beta.2",
     "axios": "^0.21.1",
     "babel": "^6.23.0",
     "bootstrap": "^5.0.2",
