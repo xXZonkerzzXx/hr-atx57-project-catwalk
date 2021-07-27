@@ -1,6 +1,9 @@
 import React from 'react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import '../../node-modules/swiper/swiper.min.css';
+import '../../node-modules/swiper/swiper.scss';
+import '../../node-modules/swiper/components/navigation.scss';
+import '../../node-modules/swiper/components/pagination.scss';
 
 class ImageGallery extends React.Component {
   constructor(props) {
@@ -8,7 +11,7 @@ class ImageGallery extends React.Component {
   }
 
   componentDidMount() {
-    this.swiper = new Swiper('#swiper-container', {
+    this.swiper = new Swiper('.swiper-container', {
       direction: 'horizontal',
       speed: 500,
       spaceBetween: 50,
@@ -31,18 +34,18 @@ class ImageGallery extends React.Component {
 
   render() {
     return (
-      <div id="swiper-container">
-        <div className="swiper-wrapper">
-          <div className="swiper-slide">Slide 1</div>
-          <div className="swiper-slide">Slide 2</div>
-          <div className="swiper-slide">Slide 3</div>
-          <div className="swiper-slide">Slide 4</div>
-          <div className="swiper-slide">Slide 5</div>
-          <div className="swiper-slide">Slide 6</div>
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">Slide 1</div>
+          <div class="swiper-slide">Slide 2</div>
+          <div class="swiper-slide">Slide 3</div>
+          <div class="swiper-slide">Slide 4</div>
+          <div class="swiper-slide">Slide 5</div>
+          <div class="swiper-slide">Slide 6</div>
         </div>
-        <div className="swiper-pagination" />
-        <div className="swiper-button-prev" />
-        <div className="swiper-button-next" />
+        <div class="swiper-pagination" />
+        <div class="swiper-button-prev" />
+        <div class="swiper-button-next" />
       </div>
     );
   }

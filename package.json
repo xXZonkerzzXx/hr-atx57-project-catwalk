@@ -9,6 +9,7 @@
     "bootstrap": "^5.0.2",
     "chakra": "^0.0.3",
     "cors": "^2.8.5",
+    "css-loader": "^6.2.0",
     "enzyme": "^3.11.0",
     "eslint-config-hackreactor": "github:hackreactor-labs/eslint-config-hackreactor",
     "express": "^4.17.1",
@@ -22,6 +23,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
+    "style-loader": "^3.2.1",
     "swiper": "^6.8.0",
     "underscore": "^1.13.1"
   },
