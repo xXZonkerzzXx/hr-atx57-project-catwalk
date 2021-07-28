@@ -67,7 +67,7 @@ module.exports = {
       "body": "Comfortable and practical.",
       "date": "2019-04-14T10:00:00.001Z",
       "reviewer_name": "shortandsweeet",
-      "helpfulness": 8,
+      "helpfulness": 5,
       "photos": [{
         "id": 1,
         "url": "urlplaceholder/review_5_photo_number_1.jpg"
@@ -88,7 +88,7 @@ module.exports = {
       "body": "Comfortable and practical.",
       "date": "2019-04-14T10:00:00.001Z",
       "reviewer_name": "shortandsweeet",
-      "helpfulness": 8,
+      "helpfulness": 6,
       "photos": [{
         "id": 1,
         "url": "urlplaceholder/review_5_photo_number_1.jpg"

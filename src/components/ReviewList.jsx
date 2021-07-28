@@ -72,7 +72,7 @@ class ReviewList extends React.Component {
           <div className="overflow-auto">
             {this.state.reviews.map((review, index) => {
               if (index < this.state.numOfReviews) {
-                return <ReviewTile review={review}/>;
+                return <ReviewTile key={index} review={review}/>;
               }
             })}
           </div>
@@ -85,9 +85,5 @@ class ReviewList extends React.Component {
     );
   }
 }
-// <ReviewTile review={this.state.reviews[0]}/>
-// <ReviewTile review={this.state.reviews[1]}/>
-// <ReviewTile review={this.state.reviews[2]}/>
-// <ReviewTile review={this.state.reviews[3]}/>
-// <ReviewTile review={this.state.reviews[4]}/>
+
 export default ReviewList;

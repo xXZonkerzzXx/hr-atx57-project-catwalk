@@ -8660,6 +8660,7 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
       }, this.state.reviews.map(function (review, index) {
         if (index < _this2.state.numOfReviews) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
+            key: index,
             review: review
           });
         }
@@ -8675,12 +8676,7 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return ReviewList;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component); // <ReviewTile review={this.state.reviews[0]}/>
-// <ReviewTile review={this.state.reviews[1]}/>
-// <ReviewTile review={this.state.reviews[2]}/>
-// <ReviewTile review={this.state.reviews[3]}/>
-// <ReviewTile review={this.state.reviews[4]}/>
-
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ReviewList);
 
@@ -8782,7 +8778,8 @@ var ReviewTile = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       if (!this.state.reported) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-          id: "review-tile"
+          className: "review-tile",
+          key: this.props.id
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
           name: "half-rating-read",
           size: "large",
@@ -41314,7 +41311,7 @@ module.exports = {
       "body": "Comfortable and practical.",
       "date": "2019-04-14T10:00:00.001Z",
       "reviewer_name": "shortandsweeet",
-      "helpfulness": 8,
+      "helpfulness": 5,
       "photos": [{
         "id": 1,
         "url": "urlplaceholder/review_5_photo_number_1.jpg"
@@ -41335,7 +41332,7 @@ module.exports = {
       "body": "Comfortable and practical.",
       "date": "2019-04-14T10:00:00.001Z",
       "reviewer_name": "shortandsweeet",
-      "helpfulness": 8,
+      "helpfulness": 6,
       "photos": [{
         "id": 1,
         "url": "urlplaceholder/review_5_photo_number_1.jpg"
