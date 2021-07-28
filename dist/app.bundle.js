@@ -8564,9 +8564,11 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      reviews: (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results)
+      reviews: (_reviewDummyData_js__WEBPACK_IMPORTED_MODULE_2___default().results),
+      numOfReviews: 2
     };
     _this.onSortChange = _this.onSortChange.bind(_assertThisInitialized(_this));
+    _this.onMoreReviewsClick = _this.onMoreReviewsClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -8595,9 +8597,9 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
       if (event.target.value === 'relevant') {
         var sortedReviews = this.state.reviews.sort(function (a, b) {
           if (a.date !== b.date) {
-            console.log(a.date);
-            console.log(b.date);
-            return a.date - b.date;
+            var aDate = new Date(a.date);
+            var bDate = new Date(b.date);
+            return bDate.valueOf() - aDate.valueOf();
           } else {
             return b.helpfulness - a.helpfulness;
           }
@@ -8614,14 +8616,32 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
         this.setState({
           reviews: sortedReviews
         });
+      } else if (event.target.value === 'newest') {
+        var sortedReviews = this.state.reviews.sort(function (a, b) {
+          return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+        });
+        this.setState({
+          reviews: sortedReviews
+        });
       }
+    }
+  }, {
+    key: "onMoreReviewsClick",
+    value: function onMoreReviewsClick() {
+      this.setState({
+        numOfReviews: this.state.numOfReviews + 2
+      });
     }
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        id: "review-list"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, this.state.reviews.length - 1, " reviews"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        id: "review-module"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        id: "review-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, this.state.reviews.length, " reviews"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
         htmlFor: "sort-list"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("b", null, "Sorted By:  ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
         name: "sort-list",
@@ -8632,16 +8652,35 @@ var ReviewList = /*#__PURE__*/function (_React$Component) {
         value: "newest"
       }, "Newest"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
         value: "helpful"
-      }, "Helpful")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
-        review: this.state.reviews[0]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
-        review: this.state.reviews[1]
-      }));
+      }, "Helpful"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "overflow-auto",
+        id: "review-list"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "overflow-auto"
+      }, this.state.reviews.map(function (review, index) {
+        if (index < _this2.state.numOfReviews) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_ReviewTile_jsx__WEBPACK_IMPORTED_MODULE_1__.default, {
+            review: review
+          });
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        id: "review-list-buttons"
+      }, this.state.reviews.length > this.state.numOfReviews ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        id: "more-reviews",
+        onClick: this.onMoreReviewsClick
+      }, "More Reviews") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        id: "write-review"
+      }, "Write Review")));
     }
   }]);
 
   return ReviewList;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component); // <ReviewTile review={this.state.reviews[0]}/>
+// <ReviewTile review={this.state.reviews[1]}/>
+// <ReviewTile review={this.state.reviews[2]}/>
+// <ReviewTile review={this.state.reviews[3]}/>
+// <ReviewTile review={this.state.reviews[4]}/>
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ReviewList);
 
@@ -8718,7 +8757,8 @@ var ReviewTile = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate(prevProps) {
       if (this.props.review.reviewer_name !== prevProps.review.reviewer_name) {
         this.setState({
-          date: new Date(this.props.review.date)
+          date: new Date(this.props.review.date),
+          rating: this.props.review.rating
         });
       }
     }
@@ -8746,7 +8786,7 @@ var ReviewTile = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, {
           name: "half-rating-read",
           size: "large",
-          defaultValue: this.props.review.rating,
+          value: this.state.rating,
           precision: 1 / 4,
           readOnly: true
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
@@ -41213,14 +41253,14 @@ module.exports = {
   "results": [
     {
       "review_id": 5,
-      "rating": 3,
+      "rating": 3.8,
       "summary": "I'm enjoying wearing these shades",
       "recommend": false,
       "response": null,
       "body": "Comfortable and practical.",
-      "date": "2019-04-14T00:00:00.001Z",
+      "date": "2019-04-14T10:00:00.001Z",
       "reviewer_name": "shortandsweeet",
-      "helpfulness": 5,
+      "helpfulness": 8,
       "photos": [{
         "id": 1,
         "url": "urlplaceholder/review_5_photo_number_1.jpg"
@@ -41239,12 +41279,74 @@ module.exports = {
       "recommend": true,
       "response": "Glad you're enjoying the product!",
       "body": "They are very dark. But that's good because I'm in very sunny spots",
-      "date": "2019-06-23T00:00:00.001Z",
+      "date": "2019-04-13T10:00:00.001Z",
       "reviewer_name": "bigbrotherbenjamin",
-      "helpfulness": 6,
+      "helpfulness": 10,
       "photos": [],
     },
-    // ...
+    {
+      "review_id": 2,
+      "rating": 1,
+      "summary": "I don't like these shades",
+      "recommend": false,
+      "response": "We're sorry you don't like the product. Please email us to resolve this issue.",
+      "body": "Uncomfortable and not practical.",
+      "date": "2019-04-14T10:00:00.001Z",
+      "reviewer_name": "hatorade",
+      "helpfulness": 1,
+      "photos": [{
+        "id": 1,
+        "url": "urlplaceholder/review_5_photo_number_1.jpg"
+      },
+      {
+        "id": 2,
+        "url": "urlplaceholder/review_5_photo_number_2.jpg"
+      },
+        // ...
+      ]
+    },
+    {
+      "review_id": 1,
+      "rating": 5,
+      "summary": "I'm enjoying wearing these shades",
+      "recommend": false,
+      "response": null,
+      "body": "Comfortable and practical.",
+      "date": "2019-04-14T10:00:00.001Z",
+      "reviewer_name": "shortandsweeet",
+      "helpfulness": 8,
+      "photos": [{
+        "id": 1,
+        "url": "urlplaceholder/review_5_photo_number_1.jpg"
+      },
+      {
+        "id": 2,
+        "url": "urlplaceholder/review_5_photo_number_2.jpg"
+      },
+        // ...
+      ]
+    },
+    {
+      "review_id": 5,
+      "rating": 3.8,
+      "summary": "I'm enjoying wearing these shades",
+      "recommend": false,
+      "response": null,
+      "body": "Comfortable and practical.",
+      "date": "2019-04-14T10:00:00.001Z",
+      "reviewer_name": "shortandsweeet",
+      "helpfulness": 8,
+      "photos": [{
+        "id": 1,
+        "url": "urlplaceholder/review_5_photo_number_1.jpg"
+      },
+      {
+        "id": 2,
+        "url": "urlplaceholder/review_5_photo_number_2.jpg"
+      },
+        // ...
+      ]
+    }
   ]
 };
 

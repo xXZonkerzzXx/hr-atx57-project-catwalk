@@ -20,7 +20,7 @@ class ReviewTile extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.review.reviewer_name !== prevProps.review.reviewer_name) {
-      this.setState({date: new Date(this.props.review.date)});
+      this.setState({date: new Date(this.props.review.date), rating: this.props.review.rating});
     }
   }
 
@@ -36,7 +36,7 @@ class ReviewTile extends React.Component {
     if (!this.state.reported) {
       return (
         <div id="review-tile">
-          <Rating name="half-rating-read" size="large" defaultValue={this.props.review.rating} precision={1 / 4} readOnly/>
+          <Rating name="half-rating-read" size="large" value={this.state.rating} precision={1 / 4} readOnly/>
           <p id="review-date">{this.props.review.reviewer_name} {new Intl.DateTimeFormat('en-US', {dateStyle: 'long'}).format(this.state.date)}</p>
           <p id="review-summary">{this.props.review.summary}</p>
           <p id="review-body">{this.props.review.body}</p>

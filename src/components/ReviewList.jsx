@@ -6,9 +6,11 @@ class ReviewList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviews: reviewData.results
+      reviews: reviewData.results,
+      numOfReviews: 2
     };
     this.onSortChange = this.onSortChange.bind(this);
+    this.onMoreReviewsClick = this.onMoreReviewsClick.bind(this);
   }
 
   componentDidMount() {
@@ -27,9 +29,9 @@ class ReviewList extends React.Component {
     if (event.target.value === 'relevant') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         if (a.date !== b.date) {
-          console.log(a.date);
-          console.log(b.date);
-          return a.date - b.date;
+          var aDate = new Date(a.date);
+          var bDate = new Date(b.date);
+          return bDate.valueOf() - aDate.valueOf();
         } else {
           return b.helpfulness - a.helpfulness;
         }
@@ -42,24 +44,50 @@ class ReviewList extends React.Component {
       });
       console.log(sortedReviews);
       this.setState({reviews: sortedReviews});
+    } else if (event.target.value === 'newest') {
+      var sortedReviews = this.state.reviews.sort((a, b) => {
+        return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+      });
+      this.setState({reviews: sortedReviews});
     }
+  }
+
+  onMoreReviewsClick() {
+    this.setState({numOfReviews: this.state.numOfReviews + 2});
   }
 
   render() {
     return (
-      <div id="review-list">
-        <h2>{this.state.reviews.length - 1} reviews</h2>
-        <label htmlFor="sort-list"><b>Sorted By:  </b></label>
-        <select name="sort-list" onChange={this.onSortChange}>
-          <option value="relevant">Relevant</option>
-          <option value="newest">Newest</option>
-          <option value="helpful">Helpful</option>
-        </select>
-        <ReviewTile review={this.state.reviews[0]}/>
-        <ReviewTile review={this.state.reviews[1]}/>
+      <div id="review-module">
+        <div id="review-header">
+          <h2>{this.state.reviews.length} reviews</h2>
+          <label htmlFor="sort-list"><b>Sorted By:  </b></label>
+          <select name="sort-list" onChange={this.onSortChange}>
+            <option value="relevant">Relevant</option>
+            <option value="newest">Newest</option>
+            <option value="helpful">Helpful</option>
+          </select>
+        </div>
+        <div className="overflow-auto" id="review-list">
+          <div className="overflow-auto">
+            {this.state.reviews.map((review, index) => {
+              if (index < this.state.numOfReviews) {
+                return <ReviewTile review={review}/>;
+              }
+            })}
+          </div>
+        </div>
+        <div id="review-list-buttons">
+          {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
+          <button id="write-review">Write Review</button>
+        </div>
       </div>
     );
   }
 }
-
+// <ReviewTile review={this.state.reviews[0]}/>
+// <ReviewTile review={this.state.reviews[1]}/>
+// <ReviewTile review={this.state.reviews[2]}/>
+// <ReviewTile review={this.state.reviews[3]}/>
+// <ReviewTile review={this.state.reviews[4]}/>
 export default ReviewList;

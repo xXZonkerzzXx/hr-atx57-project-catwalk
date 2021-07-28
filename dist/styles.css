@@ -1,9 +1,30 @@
-#review-list {
+#review-module {
+  position: relative;
+  display: grid;
+  grid-template-rows: 50px 1fr 50px;
   border: 1px solid black;
   height: auto;
   width: 75%;
   margin-left: 12.5%;
   margin-right: 12.5%;
+  padding-bottom: 25px;
+  max-height: 1300px;
+  overflow: scroll;
+}
+#review-list {
+  height: auto;
+  position: relative;
+  width: 100%;
+  max-height: fit-content(80%);
+  overflow: scroll;
+  grid-row: 2 / 3;
+}
+#review-header {
+  grid-row: 1;
+  margin-bottom: 50px;
+  position: fixed;
+  z-index: 2;
+  background-color: white;
 }
 #review-tile {
   display: grid;
@@ -53,4 +74,12 @@
 .star {
   height: 50px;
   width: 20%;
+}
+#more-reviews {
+  margin-left: 5%;
+  margin-right: 30px;
+}
+#review-list-buttons {
+  grid-row: 3 / 4;
+  padding-top: 20px;
 }
