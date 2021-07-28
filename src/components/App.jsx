@@ -15,8 +15,8 @@ class App extends React.Component {
     return (
       <main>
         This is where the app will load.
-
-        {/* <Overview />
+        <Overview />
+        {/*
         <Reviews />
         <Questions />
         <Related /> */}

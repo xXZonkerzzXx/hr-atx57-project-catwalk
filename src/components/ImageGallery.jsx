@@ -1,9 +1,9 @@
 import React from 'react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import '../../node-modules/swiper/swiper.scss';
-import '../../node-modules/swiper/components/navigation.scss';
-import '../../node-modules/swiper/components/pagination.scss';
+import { Swiper, SwiperSlide } from 'swiper';
+import 'swiper/swiper-bundle.css';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
 
 class ImageGallery extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class ImageGallery extends React.Component {
   componentDidMount() {
     this.swiper = new Swiper('.swiper-container', {
       direction: 'horizontal',
-      speed: 500,
+      speed: 300,
       spaceBetween: 50,
       slidesPerView: 4,
       slidesOffsetBefore: 50,
@@ -21,12 +21,12 @@ class ImageGallery extends React.Component {
       slideToClickedSlide: true,
       grabCursor: true,
       pagination: {
-        el: ".swiper-pagination",
+        el: '.swiper-pagination',
         clickable: true,
       },
       navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
       }
     });
 
@@ -34,18 +34,18 @@ class ImageGallery extends React.Component {
 
   render() {
     return (
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">Slide 1</div>
-          <div class="swiper-slide">Slide 2</div>
-          <div class="swiper-slide">Slide 3</div>
-          <div class="swiper-slide">Slide 4</div>
-          <div class="swiper-slide">Slide 5</div>
-          <div class="swiper-slide">Slide 6</div>
+      <div className="swiper-container">
+        <div className="swiper-wrapper">
+          <div className="swiper-slide">Slide 1</div>
+          <div className="swiper-slide">Slide 2</div>
+          <div className="swiper-slide">Slide 3</div>
+          <div className="swiper-slide">Slide 4</div>
+          <div className="swiper-slide">Slide 5</div>
+          <div className="swiper-slide">Slide 6</div>
         </div>
-        <div class="swiper-pagination" />
-        <div class="swiper-button-prev" />
-        <div class="swiper-button-next" />
+        <div className="swiper-pagination" />
+        <div className="swiper-button-prev" />
+        <div className="swiper-button-next" />
       </div>
     );
   }
