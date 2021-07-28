@@ -1,3 +1,4 @@
+/* eslint-ignore */
 module.exports = {
   "product": "2",
   "page": 0,
