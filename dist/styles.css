@@ -1,15 +1,20 @@
+.reviews {
+  display: grid;
+  grid-template-columns: .5fr, 4fr;
+  grid-template-rows: 1fr;
+}
 #review-module {
   position: relative;
   display: grid;
-  grid-template-rows: 50px 1fr 50px;
+  grid-template-rows: 50px 5fr 50px;
+  row-gap: 10px;
   border: 1px solid black;
   height: auto;
-  width: 75%;
-  margin-left: 12.5%;
+  width: 1200px;
   margin-right: 12.5%;
-  padding-bottom: 25px;
+  padding: 15px;
   max-height: 1300px;
-
+  grid-column: 2 / 3;
 }
 #review-list {
   height: auto;
@@ -20,11 +25,11 @@
   grid-row: 2 / 3;
 }
 #review-header {
-  grid-row: 1;
+  grid-row: 1 / 2;
   margin-bottom: 50px;
-  position: fixed;
-  z-index: 2;
+  position: relative;
   background-color: white;
+  z-index: 2;
 }
 .review-tile {
   display: grid;
@@ -82,4 +87,16 @@
 #review-list-buttons {
   grid-row: 3 / 4;
   padding-top: 20px;
+}
+#progress-bars {
+  padding-top: 20px;
+}
+#reviews-summary {
+  width: 250px;
+  line-height: 25px;
+  padding-bottom: 10px;
+  grid-column: 1 / 2;
+}
+.progress {
+  width: 200px;
 }

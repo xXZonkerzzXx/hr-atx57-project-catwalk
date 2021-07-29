@@ -19,8 +19,12 @@ class ReviewTile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.review.reviewer_name !== prevProps.review.reviewer_name) {
-      this.setState({date: new Date(this.props.review.date), rating: this.props.review.rating});
+    if (this.props.review.review_id !== prevProps.review.review_id) {
+      this.setState({
+        date: new Date(this.props.review.date),
+        rating: this.props.review.rating,
+        helpful: this.props.review.helpfulness + (this.state.helpfulClicked ? 1 : 0)
+      });
     }
   }
 
@@ -42,7 +46,7 @@ class ReviewTile extends React.Component {
           <p id="review-body">{this.props.review.body}</p>
           {this.props.review.recommend ? <p id="recommended">&#10003; I recommend this product!</p> : null}
           {this.props.review.response ? <p id="seller-response"><b>Response from seller:</b> <br></br><br></br>{this.props.review.response}</p> : null}
-          <p id="is-helpful"> Helpful? <button onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u></button> &#40;{this.props.review.helpfulness}&#41;</p>
+          <p id="is-helpful"> Helpful? <button onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u></button> &#40;{this.state.helpful}&#41;</p>
           <p id="report-review" onClick={this.onReportClick}><u>Report</u></p>
         </div>
       );

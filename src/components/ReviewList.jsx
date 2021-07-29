@@ -42,7 +42,6 @@ class ReviewList extends React.Component {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return b.helpfulness - a.helpfulness;
       });
-      console.log(sortedReviews);
       this.setState({reviews: sortedReviews});
     } else if (event.target.value === 'newest') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
@@ -58,30 +57,32 @@ class ReviewList extends React.Component {
 
   render() {
     return (
-      <div id="review-module">
-        <div id="review-header">
-          <h2>{this.state.reviews.length} reviews</h2>
-          <label htmlFor="sort-list"><b>Sorted By:  </b></label>
-          <select name="sort-list" onChange={this.onSortChange}>
-            <option value="relevant">Relevant</option>
-            <option value="newest">Newest</option>
-            <option value="helpful">Helpful</option>
-          </select>
-        </div>
-        <div className="overflow-auto" id="review-list">
-          <div className="overflow-auto">
-            {this.state.reviews.map((review, index) => {
-              if (index < this.state.numOfReviews) {
-                return <ReviewTile key={index} review={review}/>;
-              }
-            })}
+
+        <div id="review-module">
+          <div id="review-header">
+            <h2>{this.state.reviews.length} reviews</h2>
+            <label htmlFor="sort-list"><b>Sorted By:  </b></label>
+            <select name="sort-list" onChange={this.onSortChange}>
+              <option value="relevant">Relevant</option>
+              <option value="newest">Newest</option>
+              <option value="helpful">Helpful</option>
+            </select>
+          </div>
+          <div className="overflow-auto" id="review-list">
+            <div className="overflow-auto">
+              {this.state.reviews.map((review, index) => {
+                if (index < this.state.numOfReviews) {
+                  return <ReviewTile key={index} review={review}/>;
+                }
+              })}
+            </div>
+          </div>
+          <div id="review-list-buttons">
+            {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
+            <button id="write-review">Write Review</button>
           </div>
         </div>
-        <div id="review-list-buttons">
-          {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
-          <button id="write-review">Write Review</button>
-        </div>
-      </div>
+
     );
   }
 }

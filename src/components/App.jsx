@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Reviews from './ReviewList.jsx';
 import Overview from './Overview.jsx';
 import ImageGallery from './ImageGallery.jsx';
+import ReviewSummary from './ReviewSummary.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,10 @@ class App extends React.Component {
         <Reviews />
         <Questions />
         <Related /> */}
-        <Reviews />
+        <div className="reviews">
+          <ReviewSummary />
+          <Reviews />
+        </div>
       </main>
     );
   }
