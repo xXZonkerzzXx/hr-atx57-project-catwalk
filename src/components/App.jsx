@@ -5,12 +5,20 @@ import Overview from './Overview.jsx';
 import ImageGallery from './ImageGallery.jsx';
 import ReviewSummary from './ReviewSummary.jsx';
 import { Grid } from '@material-ui/core';
+import axios from 'axios';
+import config from '../../config.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       input: '',
+      currentItem: {
+        category: 'Ducks',
+        name: 'Mallard',
+        price: 'Free'
+      },
+      currentStyles: []
     };
     this.onSearchBarInput = this.onSearchBarInput.bind(this);
   }
@@ -20,6 +28,31 @@ class App extends React.Component {
     this.setState({
       input: e.target.value,
     });
+  }
+
+  componentDidMount() {
+    const data = {
+      headers: config,
+      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+    };
+    axios.get('/products', data)
+      .then((response) => {
+        this.setState({
+          currentItem: response.data[0]
+        });
+        axios.get(`/products/${this.state.currentItem.id}/styles`, data)
+          .then((content) => {
+            this.setState({
+              currentStyles: content.data.results
+            });
+          })
+          .catch((err) => {
+            console.error('Error from styles get request: ', err);
+          });
+      })
+      .catch((err) => {
+        console.error('Error from products get request: ', err);
+      });
   }
 
   render() {
@@ -53,7 +86,7 @@ class App extends React.Component {
           </Grid>
         </Grid>
 
-        <Overview />
+        <Overview currentItem={this.state.currentItem} currentStyles={this.state.currentStyles} />
 
         {/*<Overview />
         <Reviews />
