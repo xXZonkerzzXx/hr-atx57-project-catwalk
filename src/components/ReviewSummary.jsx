@@ -156,3 +156,4 @@ class ReviewSummary extends React.Component {
 }
 
 export default ReviewSummary;
+
