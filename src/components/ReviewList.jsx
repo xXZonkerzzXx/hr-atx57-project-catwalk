@@ -14,15 +14,14 @@ class ReviewList extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({reviews: reviewData.results});
+    this.setState({ reviews: reviewData.results });
     var rating = 0;
     for (var i = 0; i < reviewData.results.length; i++) {
       rating += reviewData.results[i].rating;
     }
     var divisor = this.state.reviews.length;
     var avgRating = (rating / divisor);
-    console.log(avgRating);
-    this.setState({avgRating: avgRating});
+    this.setState({ avgRating: avgRating });
   }
 
   onSortChange(event) {
@@ -36,28 +35,27 @@ class ReviewList extends React.Component {
           return b.helpfulness - a.helpfulness;
         }
       });
-      this.setState({reviews: sortedReviews});
-      console.log('Reviews sorted');
+      this.setState({ reviews: sortedReviews });
     } else if (event.target.value === 'helpful') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return b.helpfulness - a.helpfulness;
       });
-      console.log(sortedReviews);
-      this.setState({reviews: sortedReviews});
+      this.setState({ reviews: sortedReviews });
     } else if (event.target.value === 'newest') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return new Date(b.date).valueOf() - new Date(a.date).valueOf();
       });
-      this.setState({reviews: sortedReviews});
+      this.setState({ reviews: sortedReviews });
     }
   }
 
   onMoreReviewsClick() {
-    this.setState({numOfReviews: this.state.numOfReviews + 2});
+    this.setState({ numOfReviews: this.state.numOfReviews + 2 });
   }
 
   render() {
     return (
+
       <div id="review-module">
         <div id="review-header">
           <h2>{this.state.reviews.length} reviews</h2>
@@ -72,7 +70,7 @@ class ReviewList extends React.Component {
           <div className="overflow-auto">
             {this.state.reviews.map((review, index) => {
               if (index < this.state.numOfReviews) {
-                return <ReviewTile key={index} review={review}/>;
+                return <ReviewTile key={index} review={review} />;
               }
             })}
           </div>
@@ -82,6 +80,7 @@ class ReviewList extends React.Component {
           <button id="write-review">Write Review</button>
         </div>
       </div>
+
     );
   }
 }

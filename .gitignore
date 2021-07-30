@@ -352,5 +352,4 @@ MigrationBackup/
 # Ignore for Github API
 config.js
 
-# Ignore for Bundle
-*bundle*
+*.bundle*
