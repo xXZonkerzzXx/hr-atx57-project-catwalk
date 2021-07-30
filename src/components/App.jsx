@@ -4,7 +4,7 @@ import Reviews from './ReviewList.jsx';
 import Overview from './Overview.jsx';
 import ImageGallery from './ImageGallery.jsx';
 import ReviewSummary from './ReviewSummary.jsx';
-import { Grid } from "@material-ui/core";
+import { Grid } from '@material-ui/core';
 
 class App extends React.Component {
   constructor(props) {

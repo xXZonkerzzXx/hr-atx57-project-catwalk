@@ -46,7 +46,7 @@ class ReviewTile extends React.Component {
           <p id="review-body">{this.props.review.body}</p>
           {this.props.review.recommend ? <p id="recommended">&#10003; I recommend this product!</p> : null}
           {this.props.review.response ? <p id="seller-response"><b>Response from seller:</b> <br></br><br></br>{this.props.review.response}</p> : null}
-          <p id="is-helpful"> Helpful? <button onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u></button> &#40;{this.state.helpful}&#41;</p>
+          <p id="is-helpful"> Helpful? <button onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u> &#40;{this.state.helpful}&#41;</button>   <button id="not-helpful"><u>No</u></button></p>
           <p id="report-review" onClick={this.onReportClick}><u>Report</u></p>
         </div>
       );
