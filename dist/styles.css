@@ -7,6 +7,7 @@
   position: relative;
   display: grid;
   grid-template-rows: 50px 5fr 50px;
+  grid-template-columns: 1fr .25fr;
   row-gap: 10px;
   border: 1px solid black;
   height: auto;
@@ -34,8 +35,8 @@
 }
 .review-tile {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: 1.5fr 2fr 2fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr;
   border: 1px solid black;
   height: 250px;
   width: 90%;
@@ -50,6 +51,7 @@
 #review-date {
   grid-column: 3 / 4;
   grid-row: 1 / 2;
+  justify-self: end;
 }
 #review-summary {
   grid-column: 1 / 4;
@@ -59,26 +61,40 @@
   grid-column: 1 / 4;
   grid-row: 3 / 4;
 }
+#review-photos {
+  grid-column: 1 / 4;
+  grid-row: 4 / 5
+}
+.photo {
+  height: 50px;
+  width: 50px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+#review-photos:nth-child() {
+  margin-left: 50px;
+}
 #recommended {
   grid-column: 1 / 4;
-  grid-row: 4 / 5;
+  grid-row: 5 / 6;
 }
 #seller-response {
   grid-column: 1 / 4;
-  grid-row: 5 / 6;
+  grid-row: 6 / 7;
   background-color: #BEBEBE;
   padding: 20px;
 }
 #is-helpful {
   grid-column: 1 / 2;
-  grid-row: 6 / 7;
+  grid-row: 7 / 8;
 }
 #not-helpful {
   margin-left: 10px;
 }
 #report-review {
   grid-column: 2 / 3;
-  grid-row: 6 / 7;
+  grid-row: 7 / 8;
+  margin-left: 20px;
 }
 .star {
   height: 50px;
@@ -86,7 +102,7 @@
 }
 #more-reviews {
   margin-left: 5%;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 #review-list-buttons {
   grid-row: 3 / 4;
@@ -102,6 +118,7 @@
   grid-column: 1 / 2;
 }
 .progress {
+  grid-column: 1 / 2;
   width: 200px;
 }
 #product-characteristics {
@@ -111,4 +128,10 @@
 }
 .slider-bars {
   padding-top: 20px;
+}
+.numOfReviews {
+  position: absolute;
+  grid-column: 2 / 3;
+  left: 250px;
+  margin-top: -21px;
 }

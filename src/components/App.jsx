@@ -38,9 +38,9 @@ class App extends React.Component {
     axios.get('/products', data)
       .then((response) => {
         this.setState({
-          currentItem: response.data[0]
+          currentItem: response.data[1]
         });
-        axios.get(`/products/${this.state.currentItem.id}/styles`, data)
+        axios.get(`products/${this.state.currentItem.id}/styles`, data)
           .then((content) => {
             this.setState({
               currentStyles: content.data.results
@@ -93,8 +93,8 @@ class App extends React.Component {
         <Questions />
         <Related /> */}
         <div className="reviews">
-          <ReviewSummary />
-          <Reviews />
+          <ReviewSummary currentItem={this.state.currentItem}/>
+          <Reviews currentItem={this.state.currentItem}/>
         </div>
       </main>
     );
