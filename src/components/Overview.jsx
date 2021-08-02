@@ -4,24 +4,31 @@ import ImageGallery from "./ImageGallery.jsx";
 import Styles from "./Styles.jsx";
 import { Grid } from "@material-ui/core";
 import ReactDOM from "react-dom";
-import $ from 'jquery';
+import $ from "jquery";
+import { Rating } from "@material-ui/core";
 
 function Overview(props) {
   const [currentItem, setCurrentItem] = useState({});
   const [currentStyles, setCurrentStyles] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
 
   useEffect(() => {
     setCurrentItem(props.currentItem);
   }, [currentItem]);
 
   useEffect(async () => {
-    const promise = await setCurrentStyles(props.currentStyles)
-    console.log(props.currentStyles);
+    const promise = await setCurrentStyles(props.currentStyles);
+    console.log(currentStyles);
+    console.log($("#avg-rating").text());
     ReactDOM.render(
       <Styles currentStyles={currentStyles} />,
       document.getElementById("styles-container")
     );
   }, [currentStyles]);
+
+  useEffect(() => {
+    setAvgRating(props.avgRating);
+  }, [avgRating]);
 
   return (
     <div>
@@ -42,7 +49,13 @@ function Overview(props) {
             alignItems="flex-start"
           >
             <Grid item xs>
-              <span>Star Rating - Read all reviews</span>
+              <Rating
+                name="half-rating-read"
+                size="large"
+                value={avgRating}
+                precision={1 / 4}
+                readOnly
+              />
             </Grid>
             <Grid item xs>
               <span>{props.currentItem.category}</span>

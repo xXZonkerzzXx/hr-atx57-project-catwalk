@@ -1,11 +1,15 @@
 import React from 'react';
 import ReviewTile from './ReviewTile.jsx';
 import reviewData from '../../reviewDummyData.js';
+import config from '../../config.js';
+import axios from 'axios';
 
 class ReviewList extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      currentItemId: this.props.currentItem.id,
       reviews: reviewData.results,
       numOfReviews: 2
     };
@@ -13,16 +17,34 @@ class ReviewList extends React.Component {
     this.onMoreReviewsClick = this.onMoreReviewsClick.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({ reviews: reviewData.results });
-    var rating = 0;
-    for (var i = 0; i < reviewData.results.length; i++) {
-      rating += reviewData.results[i].rating;
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentItem.id !== this.props.currentItem.id) {
+      this.setState({ currentItemId: this.props.currentItem.id }, () => {
+        const data = {
+          headers: config,
+          baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+        };
+        axios.get(`/reviews?product_id=${this.state.currentItemId.toString()}&count=25`, data)
+          .then((response) => {
+            this.setState({ reviews: response.data.results }, () => {
+              var rating = 0;
+              for (var i = 0; i < this.state.reviews.length; i++) {
+                rating += this.state.reviews[i].rating;
+              }
+              var divisor = this.state.reviews.length;
+              var avgRating = (rating / divisor);
+              this.setState({ avgRating: avgRating });
+            });
+          })
+          .catch((err) => {
+            console.error('Error from reviews get Request', err);
+          });
+      });
     }
-    var divisor = this.state.reviews.length;
-    var avgRating = (rating / divisor);
-    this.setState({ avgRating: avgRating });
+
   }
+
 
   onSortChange(event) {
     if (event.target.value === 'relevant') {

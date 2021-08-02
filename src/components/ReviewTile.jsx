@@ -1,6 +1,8 @@
 import React from 'react';
 import { Rating } from '@material-ui/core';
 import ReviewData from '../../reviewDummyData.js';
+import axios from 'axios';
+import config from '../../config.js';
 
 class ReviewTile extends React.Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class ReviewTile extends React.Component {
       rating: this.props.review.rating,
       response: this.props.review.response,
       date: new Date(this.props.review.date),
+      photos: this.props.review.photos,
       helpfulClicked: false,
       reported: false
     };
@@ -19,11 +22,12 @@ class ReviewTile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.review.review_id !== prevProps.review.review_id) {
+    if (this.props.review !== prevProps.review) {
       this.setState({
         date: new Date(this.props.review.date),
         rating: this.props.review.rating,
-        helpful: this.props.review.helpfulness + (this.state.helpfulClicked ? 1 : 0)
+        helpful: this.props.review.helpfulness + (this.state.helpfulClicked ? 1 : 0),
+        photos: this.props.review.photos
       });
     }
   }
@@ -44,6 +48,11 @@ class ReviewTile extends React.Component {
           <p id="review-date">{this.props.review.reviewer_name} {new Intl.DateTimeFormat('en-US', {dateStyle: 'long'}).format(this.state.date)}</p>
           <p id="review-summary">{this.props.review.summary}</p>
           <p id="review-body">{this.props.review.body}</p>
+          <div id="review-photos">
+            {this.state.photos.map((photo) => {
+              return (<img className="photo" key={photo.id} src={photo.url} alt="Review Photos"></img>);
+            })}
+          </div>
           {this.props.review.recommend ? <p id="recommended">&#10003; I recommend this product!</p> : null}
           {this.props.review.response ? <p id="seller-response"><b>Response from seller:</b> <br></br><br></br>{this.props.review.response}</p> : null}
           <p id="is-helpful"> Helpful? <button onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u> &#40;{this.state.helpful}&#41;</button>   <button id="not-helpful"><u>No</u></button></p>

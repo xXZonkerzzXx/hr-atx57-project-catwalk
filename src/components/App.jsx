@@ -18,7 +18,7 @@ class App extends React.Component {
         name: 'Mallard',
         price: 'Free'
       },
-      currentStyles: []
+      currentStyles: [],
     };
     this.onSearchBarInput = this.onSearchBarInput.bind(this);
   }
@@ -38,9 +38,9 @@ class App extends React.Component {
     axios.get('/products', data)
       .then((response) => {
         this.setState({
-          currentItem: response.data[0]
+          currentItem: response.data[1]
         });
-        axios.get(`/products/${this.state.currentItem.id}/styles`, data)
+        axios.get(`products/${this.state.currentItem.id}/styles`, data)
           .then((content) => {
             this.setState({
               currentStyles: content.data.results
@@ -86,19 +86,22 @@ class App extends React.Component {
           </Grid>
         </Grid>
 
-        <Overview currentItem={this.state.currentItem} currentStyles={this.state.currentStyles} />
+        <Overview
+          currentItem={this.state.currentItem} currentStyles={this.state.currentStyles}
+          avgRating={this.state.avgRating} />
 
         {/*<Overview />
         <Reviews />
         <Questions />
         <Related /> */}
         <div className="reviews">
-          <ReviewSummary />
-          <Reviews />
+          <ReviewSummary currentItem={this.state.currentItem}/>
+          <Reviews currentItem={this.state.currentItem}/>
         </div>
       </main>
     );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root')
+);
