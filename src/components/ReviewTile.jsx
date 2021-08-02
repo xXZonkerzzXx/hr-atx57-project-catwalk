@@ -44,7 +44,7 @@ class ReviewTile extends React.Component {
     if (!this.state.reported) {
       return (
         <div className="review-tile" key={this.props.id}>
-          <Rating name="half-rating-read" size="large" value={this.state.rating} precision={1 / 4} readOnly/>
+          <Rating name="quarter-rating-read" size="large" value={this.state.rating} precision={1 / 4} readOnly/>
           <p id="review-date">{this.props.review.reviewer_name} {new Intl.DateTimeFormat('en-US', {dateStyle: 'long'}).format(this.state.date)}</p>
           <p id="review-summary">{this.props.review.summary}</p>
           <p id="review-body">{this.props.review.body}</p>
