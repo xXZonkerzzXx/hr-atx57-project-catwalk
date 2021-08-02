@@ -49,6 +49,25 @@ class App extends React.Component {
           .catch((err) => {
             console.error('Error from styles get request: ', err);
           });
+        axios.get(`/reviews/meta?product_id=${this.state.currentItem.id.toString()}`, data)
+          .then((response) => {
+            this.setState({ ratings: response.data.ratings }, () => {
+              var rating = 0;
+              var totalRatings = 0;
+              for (var key in this.state.ratings) {
+                rating += (Number(this.state.ratings[key]) * Number(key));
+                totalRatings += Number(this.state.ratings[key]);
+              }
+              var avgRating = (rating / totalRatings);
+              this.setState({
+                avgRating: avgRating
+              });
+            });
+            console.log(this.state.avgRating);
+          })
+          .catch((err) => {
+            console.error('Error from reviews get Request', err);
+          });
       })
       .catch((err) => {
         console.error('Error from products get request: ', err);
@@ -95,8 +114,8 @@ class App extends React.Component {
         <Questions />
         <Related /> */}
         <div className="reviews">
-          <ReviewSummary currentItem={this.state.currentItem}/>
-          <Reviews currentItem={this.state.currentItem}/>
+          <ReviewSummary currentItem={this.state.currentItem} />
+          <Reviews currentItem={this.state.currentItem} />
         </div>
       </main>
     );

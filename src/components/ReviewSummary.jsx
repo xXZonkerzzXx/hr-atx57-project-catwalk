@@ -94,7 +94,7 @@ class ReviewSummary extends React.Component {
         <h3 id="avg-rating">
           {this.state.avgRating.toFixed(1)}{' '}
           <Rating
-            name="half-rating-read"
+            name="quarter-rating-read"
             size="large"
             value={this.state.avgRating}
             precision={1 / 4}
