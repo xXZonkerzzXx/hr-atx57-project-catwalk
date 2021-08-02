@@ -3,6 +3,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 function Styles(props) {
+
   const renderStyleThumb = (i) => {
     if (props.currentStyles[i]) {
       return (

@@ -1,15 +1,12 @@
 /* eslint-disable func-style */
-import React, { useEffect, useState } from 'react';
-import ImageGallery from './ImageGallery.jsx';
-import Styles from './Styles.jsx';
-import { Grid } from '@material-ui/core';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useState } from "react";
+import ImageGallery from "./ImageGallery.jsx";
+import Styles from "./Styles.jsx";
+import { Grid } from "@material-ui/core";
+import ReactDOM from "react-dom";
+import $ from 'jquery';
 
 function Overview(props) {
-  if (props.currentStyles[0]) {
-
-    console.log(props.currentStyles[0].photos[0].thumbnail_url);
-  }
   const [currentItem, setCurrentItem] = useState({});
   const [currentStyles, setCurrentStyles] = useState([]);
 
@@ -17,9 +14,13 @@ function Overview(props) {
     setCurrentItem(props.currentItem);
   }, [currentItem]);
 
-  useEffect(() => {
-    setCurrentStyles(props.currentStyles);
-    ReactDOM.render(<Styles currentStyles={currentStyles} />, document.getElementById('styles-container'));
+  useEffect(async () => {
+    const promise = await setCurrentStyles(props.currentStyles)
+    console.log(props.currentStyles);
+    ReactDOM.render(
+      <Styles currentStyles={currentStyles} />,
+      document.getElementById("styles-container")
+    );
   }, [currentStyles]);
 
   return (
@@ -53,10 +54,9 @@ function Overview(props) {
               <span>{props.currentItem.price}</span>
             </Grid>
             <Grid item xs>
-              <span>STYLE {'>'} SELECTED STYLE</span>
+              <span>STYLE {">"} SELECTED STYLE</span>
             </Grid>
-            <div id='styles-container'>
-            </div>
+            <div id="styles-container"></div>
             <Grid item xs>
               <Grid
                 container
