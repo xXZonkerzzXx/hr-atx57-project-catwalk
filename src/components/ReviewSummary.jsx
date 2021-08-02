@@ -4,83 +4,99 @@ import { Rating } from '@material-ui/core';
 import dummyMetaData from '../../reviewDummyMetaData.js';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Slider } from '@material-ui/core';
+import axios from 'axios';
+import config from '../../config.js';
 
 class ReviewSummary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rating: 0,
+      currentItemId: this.props.currentItem.id,
+      avgRating: 0,
+      ratings: 0,
+      characteristics: {},
       sizeChars: [
-        { 'label': 'A size too small', 'value': 0 },
-        { 'label': '1/2 a size too small', 'value': 1 },
-        { 'label': 'Perfect', 'value': 2 },
-        { 'label': '1/2 a size too big', 'value': 3 },
-        { 'label': 'A size too wide', 'value': 4 },
+        { 'label': 'A size too small', 'value': 1 },
+        { 'label': '1/2 a size too small', 'value': 2 },
+        { 'label': 'Perfect', 'value': 3 },
+        { 'label': '1/2 a size too big', 'value': 4 },
+        { 'label': 'A size too wide', 'value': 5 },
       ],
       widthChars: [
-        { 'label': 'Too narrow', 'value': 0 },
-        { 'label': 'Slightly Narrow', 'value': 1 },
-        { 'label': 'Perfect', 'value': 2 },
-        { 'label': 'Slightly wide', 'value': 3 },
-        { 'label': 'Too wide', 'value': 4 },
+        { 'label': 'Too narrow', 'value': 1 },
+        { 'label': 'Slightly Narrow', 'value': 2 },
+        { 'label': 'Perfect', 'value': 3 },
+        { 'label': 'Slightly wide', 'value': 4 },
+        { 'label': 'Too wide', 'value': 5 },
       ],
       comfortChars: [
-        { 'label': 'Uncomfortable', 'value': 0 },
-        { 'label': 'Slightly uncomfortable', 'value': 1 },
-        { 'label': 'Ok', 'value': 2 },
-        { 'label': 'Comfortable', 'value': 3 },
-        { 'label': 'Perfect', 'value': 4 },
+        { 'label': 'Uncomfortable', 'value': 1 },
+        { 'label': 'Slightly uncomfortable', 'value': 2 },
+        { 'label': 'Ok', 'value': 3 },
+        { 'label': 'Comfortable', 'value': 4 },
+        { 'label': 'Perfect', 'value': 5 },
       ],
       qualityChars: [
-        { 'label': 'Poor', 'value': 0 },
-        { 'label': 'Below average', 'value': 1 },
-        { 'label': 'What I expected', 'value': 2 },
-        { 'label': 'Pretty great', 'value': 3 },
-        { 'label': 'Perfect', 'value': 4 },
+        { 'label': 'Poor', 'value': 1 },
+        { 'label': 'Below average', 'value': 2 },
+        { 'label': 'What I expected', 'value': 3 },
+        { 'label': 'Pretty great', 'value': 4 },
+        { 'label': 'Perfect', 'value': 5 },
       ],
       lengthChars: [
-        { label: 'Runs short', value: 0 },
-        { label: 'Runs slightly short', value: 1 },
-        { label: 'Perfect', value: 2 },
-        { label: 'Runs slightly long', value: 3 },
-        { label: 'Runs long', value: 4 },
+        { 'label': 'Runs short', 'value': 1 },
+        { 'label': 'Runs slightly short', 'value': 2 },
+        { 'label': 'Perfect', 'value': 3 },
+        { 'label': 'Runs slightly long', 'value': 4 },
+        { 'label': 'Runs long', 'value': 5 },
       ],
       fitChars: [
-        { label: 'Runs tight', value: 0 },
-        { label: 'Runs slightly tight', value: 1 },
-        { label: 'Perfect', value: 2 },
-        { label: 'Runs slightly long', value: 3 },
-        { label: 'Runs long', value: 4 },
+        { 'label': 'Runs tight', 'value': 1 },
+        { 'label': 'Runs slightly tight', 'value': 2 },
+        { 'label': 'Perfect', 'value': 3 },
+        { 'label': 'Runs slightly long', 'value': 4 },
+        { 'label': 'Runs long', 'value': 5 },
       ],
     };
   }
 
-  componentDidMount() {
-    var avgRating = 0;
-    var totalRatings = 0;
-    var ratings = dummyMetaData.ratings;
-    for (var key in ratings) {
-      avgRating = avgRating + ratings[key] * key;
-      totalRatings += Number(ratings[key]);
+  componentDidUpdate(prevProps) {
+    const data = {
+      headers: config,
+      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+    };
+    if (prevProps.currentItem.id !== this.props.currentItem.id) {
+      this.setState({currentItemId: this.props.currentItem.id}, () => {
+        axios.get(`/reviews/meta?product_id=${this.state.currentItemId.toString()}`, data)
+          .then((response) => {
+            this.setState({ ratings: response.data.ratings }, () => {
+              var rating = 0;
+              var totalRatings = 0;
+              for (var key in this.state.ratings) {
+                rating += (Number(this.state.ratings[key]) * Number(key));
+                totalRatings += Number(this.state.ratings[key]);
+              }
+              var avgRating = (rating / totalRatings);
+              this.setState({ avgRating: avgRating, totalRatings: totalRatings, recommended: response.data.recommended.true, notRecommended: response.data.recommended.false,
+              characteristics: response.data.characteristics});
+            });
+          })
+          .catch((err) => {
+            console.error('Error from reviews get Request', err);
+          });
+      });
     }
-    avgRating = avgRating / totalRatings;
-    this.setState({
-      rating: avgRating,
-      totalRatings: totalRatings,
-      recommended: dummyMetaData.recommended.true,
-      notRecommended: dummyMetaData.recommended.false,
-    });
   }
 
   render() {
     return (
       <div id="reviews-summary">
         <h3>
-          {this.state.rating.toFixed(1)}{' '}
+          {this.state.avgRating.toFixed(1)}{' '}
           <Rating
             name="half-rating-read"
             size="large"
-            value={this.state.rating}
+            value={this.state.avgRating}
             precision={1 / 4}
             readOnly
           />
@@ -95,53 +111,54 @@ class ReviewSummary extends React.Component {
           % of reviewers recommend this product.
         </p>
         <div id="progress-bars">
-          <p>1 Star:</p>
+          <div>1 Star:
           <ProgressBar
-            now={(dummyMetaData.ratings[1] / this.state.totalRatings) * 100}
-          />
-          <p>2 Stars:</p>
+            variant="success" now={(this.state.ratings[1] / this.state.totalRatings) * 100}
+          /> <p className='numOfReviews'>{this.state.ratings[1]}</p></div>
+          <div>2 Stars:
           <ProgressBar
-            now={(dummyMetaData.ratings[2] / this.state.totalRatings) * 100}
-          />
-          <p>3 Stars: </p>
+            variant="success" now={(this.state.ratings[2] / this.state.totalRatings) * 100}
+          /> <p className='numOfReviews'>{this.state.ratings[2]}</p>
+          </div>
+          <div>3 Stars:
           <ProgressBar
-            now={(dummyMetaData.ratings[3] / this.state.totalRatings) * 100}
-          />
-          <p>4 Stars:</p>
+            variant="success" now={(this.state.ratings[3] / this.state.totalRatings) * 100}
+          /> <p className='numOfReviews'>{this.state.ratings[3]}</p></div>
+          <div>4 Stars:
           <ProgressBar
-            now={(dummyMetaData.ratings[4] / this.state.totalRatings) * 100}
-          />
-          <p>5 Stars: </p>
+            variant="success" now={(this.state.ratings[4] / this.state.totalRatings) * 100}
+          /> <p className='numOfReviews'>{this.state.ratings[4]}</p></div>
+          <div>5 Stars:
           <ProgressBar
-            now={(dummyMetaData.ratings[5] / this.state.totalRatings) * 100}
-          />
+            variant="success" now={(this.state.ratings[5] / this.state.totalRatings) * 100}
+          /> <p className='numOfReviews'>{this.state.ratings[5]}</p></div>
         </div>
         <div id="product-characteristics">
           {Object.keys(dummyMetaData.characteristics).map((char) => {
             return (
-              <div className='slider-bars'>
+              <div className='slider-bars' key={char}>
               <Slider
-                defaultValue={0}
+                value={this.state.characteristics[char] ? Number(this.state.characteristics[char].value) : 3}
                 aria-label='Custom marks'
                 aria-labelledby="discrete-slider-restrict"
-                step={1}
-                min={0}
-                max={4}
+                step={.1}
+                min={1}
+                max={5}
                 valueLabelDisplay="on"
                 size="small"
                 valueLabelFormat={(num) => {
                   if (char === 'Size') {
-                    return this.state.sizeChars[num].label;
+                    return this.state.sizeChars[Math.round(num)].label;
                   } else if (char === 'Width') {
-                    return this.state.widthChars[num].label;
+                    return this.state.widthChars[Math.round(num)].label;
                   } else if (char === 'Comfort') {
-                    return this.state.comfortChars[num].label;
+                    return this.state.comfortChars[Math.round(num)].label;
                   } else if (char === 'Quality') {
-                    return this.state.qualityChars[num].label;
+                    return this.state.qualityChars[Math.round(num)].label;
                   } else if (char === 'Length') {
-                    return this.state.lengthChars[num].label;
+                    return this.state.lengthChars[Math.round(num)].label;
                   } else if (char === 'Fit') {
-                    return this.state.fitChars[num].label;
+                    return this.state.fitChars[Math.round(num)].label;
                   }
                 }}
               />
@@ -156,3 +173,4 @@ class ReviewSummary extends React.Component {
 }
 
 export default ReviewSummary;
+
