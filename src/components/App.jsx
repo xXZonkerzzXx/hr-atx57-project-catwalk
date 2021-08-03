@@ -111,10 +111,6 @@ class App extends React.Component {
           avgRating={this.state.avgRating}
           ratings={this.state.ratings} />
 
-        {/*<Overview />
-        <Reviews />
-        <Questions />
-        <Related /> */}
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} />
           <Reviews currentItem={this.state.currentItem} />
