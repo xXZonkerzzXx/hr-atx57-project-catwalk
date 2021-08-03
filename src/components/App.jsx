@@ -37,7 +37,6 @@ class App extends React.Component {
     };
     axios.get('/products', data)
       .then((response) => {
-        console.log(response);
         this.setState({
           currentItem: response.data[0]
         });
@@ -62,7 +61,7 @@ class App extends React.Component {
               var avgRating = (rating / totalRatings);
               this.setState({
                 avgRating: avgRating
-              }, () => { console.log(this.state.avgRating); });
+              });
             });
           })
           .catch((err) => {

@@ -55,7 +55,6 @@ class ReviewTile extends React.Component {
   }
 
   onPhotoClick(event) {
-    console.log(event.target.src);
     this.setState({ currentPhotoSrc: event.target.src }, () => {
       this.setState({ showImgModal: true });
     });
@@ -79,7 +78,6 @@ class ReviewTile extends React.Component {
                 <img className="photo" key={photo.id} src={photo.url} alt="Review Photos" onClick={this.onPhotoClick}></img>
               );
             })}
-            {/* <ReviewPhotoModal show={this.state.showImgModal} onClose={this.onModalClose}/> */}
           </div>
           {this.props.review.recommend ? <p id="recommended">&#10003; I recommend this product!</p> : null}
           {this.props.review.response ? <p id="seller-response"><b>Response from seller:</b> <br></br><br></br>{this.props.review.response}</p> : null}
