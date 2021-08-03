@@ -5,8 +5,9 @@ import Styles from "./Styles.jsx";
 import { Grid } from "@material-ui/core";
 import ReactDOM from "react-dom";
 import { Rating } from "@material-ui/core";
-import config from '../../config.js';
-import axios from 'axios';
+import config from "../../config.js";
+import axios from "axios";
+import DefaultImg from "./DefaultImg.jsx";
 
 class Overview extends React.Component {
   constructor(props) {
@@ -16,55 +17,66 @@ class Overview extends React.Component {
       avgRating: 0,
       currentItem: this.props.currentItem,
       currentStyles: this.props.currentStyles,
-      mainImgIndex: null
+      mainImgIndex: null,
     };
     this.getDefaultImg = this.getDefaultImg.bind(this);
     this.getQtySelector = this.getQtySelector.bind(this);
-    this.renderQtySelectOption = this.renderQtySelectOption.bind(this);
+    this.renderQtyOption = this.renderQtyOption.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.currentItem.id !== this.props.currentItem.id) {
-      this.setState({
-        currentItem: this.props.currentItem,
-        currentStyles: this.props.currentStyles,
-      }, () => {
-        const data = {
-          headers: config,
-          baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
-        };
-        axios
-          .get(`/reviews/meta?product_id=${this.props.currentItem.id.toString()}`, data)
-          .then((response) => {
-            this.setState({ ratings: response.data.ratings }, () => {
-              var rating = 0;
-              var totalRatings = 0;
-              for (var key in this.state.ratings) {
-                rating += Number(this.state.ratings[key]) * Number(key);
-                totalRatings += Number(this.state.ratings[key]);
-              }
-              var avgRating = rating / totalRatings;
-              this.setState({
-                avgRating: avgRating,
+      this.setState(
+        {
+          currentItem: this.props.currentItem,
+          currentStyles: this.props.currentStyles,
+        },
+        () => {
+          const data = {
+            headers: config,
+            baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+          };
+          axios
+            .get(
+              `/reviews/meta?product_id=${this.props.currentItem.id.toString()}`,
+              data
+            )
+            .then((response) => {
+              this.setState({ ratings: response.data.ratings }, () => {
+                var rating = 0;
+                var totalRatings = 0;
+                for (var key in this.state.ratings) {
+                  rating += Number(this.state.ratings[key]) * Number(key);
+                  totalRatings += Number(this.state.ratings[key]);
+                }
+                var avgRating = rating / totalRatings;
+                this.setState({
+                  avgRating: avgRating,
+                });
               });
+            })
+            .catch((err) => {
+              console.error("Error from reviews get Request", err);
             });
-          })
-          .catch((err) => {
-            console.error("Error from reviews get Request", err);
-          });
-      });
+        }
+      );
     }
   }
 
   getDefaultImg() {
     for (let i = 0; i < this.state.currentStyles.length; i++) {
-      if (this.state.currentStyles[i]['default?'] === true) {
+      if (this.state.currentStyles[i]["default?"] === true) {
         this.setState({
-          mainImgIndex: i
+          mainImgIndex: i,
         });
         console.log(this.state.currentStyles[i].photos[0].thumbnail_url);
         return (
-          <img src={this.state.currentStyles[i].photos[0].thumbnail_url}></img>
+          <div>
+            <img
+              src={this.state.currentStyles[i].photos[0].thumbnail_url}
+            ></img>
+            <p>hello</p>
+          </div>
         );
       }
     }
@@ -73,15 +85,13 @@ class Overview extends React.Component {
   getQtySelector(i) {
     if (this.state.currentStyles[i]) {
       for (let j = 0; j < this.state.currentStyles[i].skus.null.quantity; j++) {
-        renderQtySelectOption(j);
+        renderQtyOption(j);
       }
     }
   }
 
-  renderQtySelectOption(j) {
-    return (
-      <option value={j}>{j}</option>
-    );
+  renderQtyOption(j) {
+    return <option value={j}>{j}</option>;
   }
 
   render() {
@@ -93,8 +103,8 @@ class Overview extends React.Component {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid item xs={7}>
-            {this.getDefaultImg()}
+          <Grid id="default-img" item xs={7}>
+            {this.getDefaultImg}
           </Grid>
           <Grid item xs={5}>
             <Grid
