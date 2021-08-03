@@ -89,7 +89,7 @@ class ReviewSummary extends React.Component {
   render() {
     return (
       <div id="reviews-summary">
-        <h3>
+        <h3 id="avg-rating">
           {this.state.avgRating.toFixed(1)}{' '}
           <Rating
             name="quarter-rating-read"

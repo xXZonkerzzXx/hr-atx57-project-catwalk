@@ -140,6 +140,11 @@
   left: 250px;
   margin-top: -21px;
 }
+.style {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+}
 #review-photo-modal {
   size: auto;
 }

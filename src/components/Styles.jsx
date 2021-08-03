@@ -1,28 +1,32 @@
 /* eslint-disable func-style */
-import React from 'react';
-import { Grid } from '@material-ui/core';
+import React from "react";
+import { Grid } from "@material-ui/core";
 
 function Styles(props) {
   const renderStyleThumb = (i) => {
     if (props.currentStyles[i]) {
       return (
         <Grid item xs>
-          <img src={props.currentStyles[i].photos[0].thumbnail_url}></img>
+          <img className="style" src={props.currentStyles[i].photos[0].thumbnail_url}></img>
         </Grid>
       );
     }
   };
 
   const renderStyles1stRow = () => {
+    let array = [];
     for (let i = 0; i <= 3; i++) {
-      renderStyleThumb(i);
+      array.push(renderStyleThumb(i));
     }
+    return array;
   };
 
   const renderStyles2ndRow = () => {
+    let array = [];
     for (let i = 4; i <= 7; i++) {
-      renderStyleThumb(i);
+      array.push(renderStyleThumb(i));
     }
+    return array;
   };
 
   return (

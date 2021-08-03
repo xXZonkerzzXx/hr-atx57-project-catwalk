@@ -13,7 +13,7 @@ sass.render({
 });
 
 module.exports = {
-  entry: path.resolve(__dirname, './src/components/App.jsx'),
+  entry: ['@babel/polyfill', path.resolve(__dirname, './src/components/App.jsx')],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'app.bundle.js'

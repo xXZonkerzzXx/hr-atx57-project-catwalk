@@ -18,7 +18,9 @@ class App extends React.Component {
         name: 'Mallard',
         price: 'Free'
       },
-      currentStyles: []
+      currentStyles: [],
+      avgRating: 0,
+      ratings: {}
     };
     this.onSearchBarInput = this.onSearchBarInput.bind(this);
   }
@@ -104,7 +106,10 @@ class App extends React.Component {
           </Grid>
         </Grid>
 
-        <Overview currentItem={this.state.currentItem} currentStyles={this.state.currentStyles} avgRating={this.state.avgRating}/>
+        <Overview
+          currentItem={this.state.currentItem} currentStyles={this.state.currentStyles}
+          avgRating={this.state.avgRating}
+          ratings={this.state.ratings} />
 
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} />
