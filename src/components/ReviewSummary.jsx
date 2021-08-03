@@ -1,9 +1,7 @@
 /* eslint-disable indent */
 import React from 'react';
-import { Rating } from '@material-ui/core';
-import dummyMetaData from '../../reviewDummyMetaData.js';
+import { Rating, Slider } from '@material-ui/core';
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import { Slider } from '@material-ui/core';
 import axios from 'axios';
 import config from '../../config.js';
 
@@ -134,11 +132,13 @@ class ReviewSummary extends React.Component {
           /> <p className='numOfReviews'>{this.state.ratings[5]}</p></div>
         </div>
         <div id="product-characteristics">
-          {Object.keys(dummyMetaData.characteristics).map((char) => {
+          {Object.keys(this.state.characteristics).map((char) => {
             return (
               <div className='slider-bars' key={char}>
+                <p>{char}</p>
               <Slider
                 value={this.state.characteristics[char] ? Number(this.state.characteristics[char].value) : 3}
+                disabled={true}
                 aria-label='Custom marks'
                 aria-labelledby="discrete-slider-restrict"
                 step={.1}

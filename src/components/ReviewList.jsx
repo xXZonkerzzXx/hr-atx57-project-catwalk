@@ -1,6 +1,5 @@
 import React from 'react';
 import ReviewTile from './ReviewTile.jsx';
-import reviewData from '../../reviewDummyData.js';
 import config from '../../config.js';
 import axios from 'axios';
 
@@ -10,7 +9,7 @@ class ReviewList extends React.Component {
     super(props);
     this.state = {
       currentItemId: this.props.currentItem.id,
-      reviews: reviewData.results,
+      reviews: [],
       numOfReviews: 2
     };
     this.onSortChange = this.onSortChange.bind(this);
@@ -25,7 +24,7 @@ class ReviewList extends React.Component {
           headers: config,
           baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
         };
-        axios.get(`/reviews?product_id=${this.state.currentItemId.toString()}&count=25`, data)
+        axios.get(`reviews?product_id=${this.state.currentItemId.toString()}&count=100`, data)
           .then((response) => {
             this.setState({ reviews: response.data.results }, () => {
               var rating = 0;
@@ -42,7 +41,20 @@ class ReviewList extends React.Component {
           });
       });
     }
+  }
 
+  onHelpfulClick(event) {
+    const data = {
+      headers: config,
+      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+    };
+    axios.put(`reviews/${this.props.review.review_id}/helpful`, null, data)
+      .then(() => {
+        this.setState({helpful: this.state.helpful + 1, helpfulClicked: true});
+      })
+      .catch((err) => {
+        console.error('Error', err);
+      });
   }
 
 
@@ -92,7 +104,7 @@ class ReviewList extends React.Component {
           <div className="overflow-auto">
             {this.state.reviews.map((review, index) => {
               if (index < this.state.numOfReviews) {
-                return <ReviewTile key={index} review={review} />;
+                return <ReviewTile key={index} review={review} currentItemId={this.state.currentItemId} onHelpfulClick={this.onHelpfulClick}/>;
               }
             })}
           </div>
