@@ -1,23 +1,26 @@
-import React from 'react';
+import React from "react";
 
 class DefaultImg extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      mainImgIndex: this.props.mainImgIndex,
-      currentStyles: this.props.currentStyles
-    };
   }
 
   render() {
-    return (
-      <div>
-        <img
-          src={this.state.currentStyles[i].photos[0].thumbnail_url}
-        ></img>
-        <p>hello</p>
-      </div>
-    );
+    if (this.props.mainImgIndex) {
+      return (
+        <div>
+          <img
+            src={
+              this.props.currentStyles[this.props.mainImgIndex].photos[0]
+                .thumbnail_url
+            }
+          ></img>
+          <p>hello</p>
+        </div>
+      );
+    } else {
+      return <div>hello</div>;
+    }
   }
 }
 

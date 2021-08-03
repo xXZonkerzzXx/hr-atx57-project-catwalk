@@ -8,6 +8,7 @@ import { Rating } from "@material-ui/core";
 import config from "../../config.js";
 import axios from "axios";
 import DefaultImg from "./DefaultImg.jsx";
+import FullGallery from 'react-image-gallery';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -18,10 +19,12 @@ class Overview extends React.Component {
       currentItem: this.props.currentItem,
       currentStyles: this.props.currentStyles,
       mainImgIndex: null,
+      cartCount: 0
     };
     this.getDefaultImg = this.getDefaultImg.bind(this);
     this.getQtySelector = this.getQtySelector.bind(this);
     this.renderQtyOption = this.renderQtyOption.bind(this);
+    this.onAddToCart = this.onAddToCart.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -53,6 +56,7 @@ class Overview extends React.Component {
                 this.setState({
                   avgRating: avgRating,
                 });
+                // getDefaultImg();
               });
             })
             .catch((err) => {
@@ -70,14 +74,14 @@ class Overview extends React.Component {
           mainImgIndex: i,
         });
         console.log(this.state.currentStyles[i].photos[0].thumbnail_url);
-        return (
-          <div>
-            <img
-              src={this.state.currentStyles[i].photos[0].thumbnail_url}
-            ></img>
-            <p>hello</p>
-          </div>
-        );
+        // return (
+        //   <div>
+        //     <img
+        //       src={this.state.currentStyles[i].photos[0].thumbnail_url}
+        //     ></img>
+        //     <p>hello</p>
+        //   </div>
+        // );
       }
     }
   }
@@ -94,6 +98,10 @@ class Overview extends React.Component {
     return <option value={j}>{j}</option>;
   }
 
+  onAddToCart() {
+    this.setState({cartCount: this.state.cartCount + 1});
+  }
+
   render() {
     return (
       <div>
@@ -103,8 +111,8 @@ class Overview extends React.Component {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid id="default-img" item xs={7}>
-            {this.getDefaultImg}
+          <Grid item xs={7}>
+            <DefaultImg currentStyles={this.props.currentStyles} mainImgIndex={this.props.mainImgIndex} />
           </Grid>
           <Grid item xs={5}>
             <Grid
@@ -113,6 +121,9 @@ class Overview extends React.Component {
               justifyContent="flex-start"
               alignItems="flex-start"
             >
+              <Grid item xs>
+                <span>Cart {this.state.cartCount}</span>
+              </Grid>
               <Grid item xs>
                 <Rating
                   name="half-rating-read"
@@ -166,7 +177,7 @@ class Overview extends React.Component {
                   alignItems="flex-start"
                 >
                   <Grid item xs={9}>
-                    <span>Add to Cart</span>
+                    <button onClick={this.onAddToCart}>Add to Cart</button>
                   </Grid>
                   <Grid item xs={3}>
                     <span>Fav</span>

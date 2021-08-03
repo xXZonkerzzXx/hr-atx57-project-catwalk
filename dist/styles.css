@@ -1,3 +1,5 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 .reviews {
   display: grid;
   grid-template-columns: .5fr, 4fr;
