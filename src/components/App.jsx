@@ -19,6 +19,8 @@ class App extends React.Component {
         price: 'Free'
       },
       currentStyles: [],
+      avgRating: 0,
+      ratings: {}
     };
     this.onSearchBarInput = this.onSearchBarInput.bind(this);
   }
@@ -38,7 +40,7 @@ class App extends React.Component {
     axios.get('/products', data)
       .then((response) => {
         this.setState({
-          currentItem: response.data[1]
+          currentItem: response.data[0]
         });
         axios.get(`products/${this.state.currentItem.id}/styles`, data)
           .then((content) => {
@@ -63,7 +65,6 @@ class App extends React.Component {
                 avgRating: avgRating
               });
             });
-            console.log(this.state.avgRating);
           })
           .catch((err) => {
             console.error('Error from reviews get Request', err);
@@ -107,7 +108,8 @@ class App extends React.Component {
 
         <Overview
           currentItem={this.state.currentItem} currentStyles={this.state.currentStyles}
-          avgRating={this.state.avgRating} />
+          avgRating={this.state.avgRating}
+          ratings={this.state.ratings} />
 
         {/*<Overview />
         <Reviews />
