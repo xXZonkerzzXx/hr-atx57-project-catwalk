@@ -1,13 +1,13 @@
 /* eslint-disable func-style */
-import React, { useEffect, useState } from "react";
-import ImageGallery from "./ImageGallery.jsx";
-import Styles from "./Styles.jsx";
-import { Grid } from "@material-ui/core";
-import ReactDOM from "react-dom";
-import { Rating } from "@material-ui/core";
-import config from "../../config.js";
-import axios from "axios";
-import DefaultImg from "./DefaultImg.jsx";
+import React, { useEffect, useState } from 'react';
+import ImageGallery from './ImageGallery.jsx';
+import Styles from './Styles.jsx';
+import { Grid } from '@material-ui/core';
+import ReactDOM from 'react-dom';
+import { Rating } from '@material-ui/core';
+import config from '../../config.js';
+import axios from 'axios';
+import DefaultImg from './DefaultImg.jsx';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class Overview extends React.Component {
         () => {
           const data = {
             headers: config,
-            baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+            baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
           };
           axios
             .get(
@@ -56,7 +56,7 @@ class Overview extends React.Component {
               });
             })
             .catch((err) => {
-              console.error("Error from reviews get Request", err);
+              console.error('Error from reviews get Request', err);
             });
         }
       );
@@ -65,7 +65,7 @@ class Overview extends React.Component {
 
   getDefaultImg() {
     for (let i = 0; i < this.state.currentStyles.length; i++) {
-      if (this.state.currentStyles[i]["default?"] === true) {
+      if (this.state.currentStyles[i]['default?'] === true) {
         this.setState({
           mainImgIndex: i,
         });
@@ -132,7 +132,7 @@ class Overview extends React.Component {
                 <span>${this.state.currentItem.default_price}</span>
               </Grid>
               <Grid item xs>
-                <span>STYLE {">"} SELECTED STYLE</span>
+                <span>STYLE {'>'} SELECTED STYLE</span>
               </Grid>
               <Styles currentStyles={this.props.currentStyles} />
               <Grid item xs>
