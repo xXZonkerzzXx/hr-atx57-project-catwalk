@@ -10,6 +10,7 @@ class DefaultImg extends React.Component {
       return (
         <div>
           <img
+            className='default-img'
             src={
               this.props.currentStyles[this.props.mainImgIndex].photos[0]
                 .thumbnail_url
