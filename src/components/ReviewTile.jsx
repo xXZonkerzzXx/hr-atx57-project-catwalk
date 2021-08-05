@@ -92,11 +92,6 @@ class ReviewTile extends React.Component {
               <img id="review-photo-modal" src={this.state.currentPhotoSrc} alt="Review Photo"></img>
             </ModalBody>
           </Modal>
-          <Modal show={this.state.showWriteReview}>
-            <ModalHeader>
-              Write a new review
-            </ModalHeader>
-          </Modal>
         </div>
       );
     } else {

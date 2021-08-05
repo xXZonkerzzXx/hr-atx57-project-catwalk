@@ -1,13 +1,13 @@
 /* eslint-disable func-style */
-import React, { useEffect, useState } from "react";
-import ImageGallery from "./ImageGallery.jsx";
-import Styles from "./Styles.jsx";
-import { Grid } from "@material-ui/core";
-import ReactDOM from "react-dom";
-import { Rating } from "@material-ui/core";
-import config from "../../config.js";
-import axios from "axios";
-import DefaultImg from "./DefaultImg.jsx";
+import React, { useEffect, useState } from 'react';
+import ImageGallery from './ImageGallery.jsx';
+import Styles from './Styles.jsx';
+import { Grid } from '@material-ui/core';
+import ReactDOM from 'react-dom';
+import { Rating } from '@material-ui/core';
+import config from '../../config.js';
+import axios from 'axios';
+import DefaultImg from './DefaultImg.jsx';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -128,7 +128,7 @@ class Overview extends React.Component {
                 <span>${this.state.currentItem.default_price}</span>
               </Grid>
               <Grid item xs>
-                <span>STYLE {">"} SELECTED STYLE</span>
+                <span>STYLE {'>'} SELECTED STYLE</span>
               </Grid>
               <Styles currentStyles={this.state.currentStyles} />
               <Grid item xs>

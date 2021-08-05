@@ -71,7 +71,7 @@
 }
 .photo {
   height: 50px;
-  width: 50px;
+  width: auto;
   margin-left: 20px;
   margin-bottom: 20px;
 }
@@ -179,4 +179,7 @@
 }
 .slide-image .MuiAvatar-circular {
   margin-right: 50px;
+}
+#new-review-product-characteristics {
+  margin-top: 20px
 }

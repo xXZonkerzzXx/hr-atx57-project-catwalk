@@ -1,7 +1,8 @@
-import React from "react";
-import ReviewTile from "./ReviewTile.jsx";
-import config from "../../config.js";
-import axios from "axios";
+import React from 'react';
+import ReviewTile from './ReviewTile.jsx';
+import config from '../../config.js';
+import axios from 'axios';
+import WriteReviewForm from './WriteReviewModal.jsx';
 
 class ReviewList extends React.Component {
   constructor(props) {
@@ -11,9 +12,12 @@ class ReviewList extends React.Component {
       reviews: [],
       numOfReviews: 2,
       avgRating: 0,
+      showWriteReview: false
     };
     this.onSortChange = this.onSortChange.bind(this);
     this.onMoreReviewsClick = this.onMoreReviewsClick.bind(this);
+    this.onWriteReviewClick = this.onWriteReviewClick.bind(this);
+    this.onCloseClick = this.onCloseClick.bind(this);
   }
 
   componentDidMount() {
@@ -91,6 +95,15 @@ class ReviewList extends React.Component {
     this.setState({ numOfReviews: this.state.numOfReviews + 2 });
   }
 
+  onWriteReviewClick() {
+    this.setState({showWriteReview: true});
+  }
+  onCloseClick() {
+    this.setState({showWriteReview: false});
+  }
+
+
+
   render() {
     return (
       <div id="review-module">
@@ -122,12 +135,9 @@ class ReviewList extends React.Component {
           </div>
         </div>
         <div id="review-list-buttons">
-          {this.state.reviews.length > this.state.numOfReviews ? (
-            <button id="more-reviews" onClick={this.onMoreReviewsClick}>
-              More Reviews
-            </button>
-          ) : null}
-          <button id="write-review">Write Review</button>
+          {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
+          <button id="write-review" onClick={this.onWriteReviewClick}>Write Review</button>
+          <WriteReviewForm showWriteReview={this.state.showWriteReview} characteristics={this.props.characteristics} chars={this.props.chars} onCloseClick={this.onCloseClick}/>
         </div>
       </div>
     );
