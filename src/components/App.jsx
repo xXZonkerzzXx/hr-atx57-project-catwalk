@@ -1,24 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Reviews from './ReviewList.jsx';
-import Overview from './Overview.jsx';
-import ImageGallery from './ImageGallery.jsx';
-import ReviewSummary from './ReviewSummary.jsx';
-import { Grid } from '@material-ui/core';
-import axios from 'axios';
-import config from '../../config.js';
+import React from "react";
+import ReactDOM from "react-dom";
+import Reviews from "./ReviewList.jsx";
+import Overview from "./Overview.jsx";
+import ImageGallery from "./ImageGallery.jsx";
+import ReviewSummary from "./ReviewSummary.jsx";
+import { Grid } from "@material-ui/core";
+import axios from "axios";
+import config from "../../config.js";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
+      input: "",
       currentItem: {
-        category: 'Ducks',
-        name: 'Mallard',
-        price: 'Free',
+        category: "Ducks",
+        name: "Mallard",
+        price: "Free",
+        id: 24156,
+        photos: [{ thumbnail_url: "" }, {}, {}],
       },
-      currentStyles: [],
       avgRating: 0,
       ratings: {},
       chars: {
@@ -68,6 +69,7 @@ class App extends React.Component {
       characteristics: []
     };
     this.onSearchBarInput = this.onSearchBarInput.bind(this);
+    this.getAvgRating = this.getAvgRating.bind(this);
   }
 
   onSearchBarInput(e) {
@@ -77,46 +79,57 @@ class App extends React.Component {
     });
   }
 
+  async getAvgRating() {
+    var rating = 0;
+    var totalRatings = 0;
+    for (var key in this.state.ratings) {
+      rating += Number(this.state.ratings[key]) * Number(key);
+      totalRatings += Number(this.state.ratings[key]);
+    }
+    var avgRating = rating / totalRatings;
+    const avgRatingSet = await this.setState({
+      avgRating: avgRating,
+    });
+  }
+
   componentDidMount() {
     const data = {
       headers: config,
-      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
     };
-    axios.get('/products?count=100', data)
-      .then((response) => {
-        this.setState({
-          currentItem: response.data[24]
+    axios
+      .get("/products", data)
+      .then(async (response) => {
+        const currentItemSet = await this.setState({
+          currentItem: response.data[0],
         });
-        axios.get(`products/${this.state.currentItem.id}/styles`, data)
-          .then((content) => {
-            this.setState({
-              currentStyles: content.data.results
+        axios
+          .get(`products/${this.state.currentItem.id}/styles`, data)
+          .then(async (content) => {
+            const currentStylesSet = await this.setState({
+              currentStyles: content.data.results,
             });
-          })
-          .catch((err) => {
-            console.error('Error from styles get request: ', err);
-          });
-        axios.get(`/reviews/meta?product_id=${this.state.currentItem.id.toString()}`, data)
-          .then((response) => {
-            this.setState({ ratings: response.data.ratings, characteristics: response.data.characteristics}, () => {
-              var rating = 0;
-              var totalRatings = 0;
-              for (var key in this.state.ratings) {
-                rating += (Number(this.state.ratings[key]) * Number(key));
-                totalRatings += Number(this.state.ratings[key]);
-              }
-              var avgRating = (rating / totalRatings);
-              this.setState({
-                avgRating: avgRating
+            axios
+              .get(
+                `/reviews/meta?product_id=${this.state.currentItem.id.toString()}`,
+                data
+              )
+              .then(async (response) => {
+                const ratingsSet = await this.setState({
+                  ratings: response.data.ratings,
+                });
+                const avgRatingSet = await this.getAvgRating();
+              })
+              .catch((err) => {
+                console.error("Error from reviews get Request", err);
               });
-            });
           })
           .catch((err) => {
-            console.error('Error from reviews get Request', err);
+            console.error("Error from styles get request: ", err);
           });
       })
       .catch((err) => {
-        console.error('Error from products get request: ', err);
+        console.error("Error from products get request: ", err);
       });
   }
 
@@ -147,14 +160,14 @@ class App extends React.Component {
           alignItems="center"
         >
           <Grid item xs={12}>
-            <span>SITE-WIDE ANNOUNCEMENT MESSAGE! -- SALE / DISCOUNT OFFER -- NEW PRODUCT HIGHLIGHT</span>
+            <span>
+              SITE-WIDE ANNOUNCEMENT MESSAGE! -- SALE / DISCOUNT OFFER -- NEW
+              PRODUCT HIGHLIGHT
+            </span>
           </Grid>
         </Grid>
 
-        <Overview
-          currentItem={this.state.currentItem} currentStyles={this.state.currentStyles}
-          avgRating={this.state.avgRating}
-          ratings={this.state.ratings} />
+        <Overview avgRating={this.state.avgRating} />
 
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} chars={this.state.chars}/>
@@ -165,4 +178,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));

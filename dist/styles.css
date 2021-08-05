@@ -1,3 +1,5 @@
+/* @import "~react-image-gallery/styles/css/image-gallery.css"; */
+
 .reviews {
   display: grid;
   grid-template-columns: .5fr, 4fr;
@@ -157,6 +159,26 @@
 #review-photo-modal {
   height: 950px;
   width: 1165px;
+}
+.swiper-container{
+  width: 100%;
+}
+.swiper-wrapper {
+  width: 50%;
+}
+.swiper-slide {
+  text-align: center;
+  width: auto;
+}
+/* .slide-image {
+  height: 400px;
+  width: auto;
+} */
+.my-gallery figure {
+  margin: 0px;
+}
+.slide-image .MuiAvatar-circular {
+  margin-right: 50px;
 }
 #new-review-product-characteristics {
   margin-top: 20px

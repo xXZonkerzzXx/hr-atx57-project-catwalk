@@ -13,85 +13,72 @@ class Overview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ratings: {},
-      avgRating: 0,
-      currentItem: this.props.currentItem,
-      currentStyles: this.props.currentStyles,
+      avgRating: props.avgRating,
+      currentItem: props.currentItem || {},
+      currentStyles: props.currentStyles || [],
       mainImgIndex: null,
+      cartCount: 0,
     };
     this.getDefaultImg = this.getDefaultImg.bind(this);
     this.getQtySelector = this.getQtySelector.bind(this);
     this.renderQtyOption = this.renderQtyOption.bind(this);
+    this.onAddToCart = this.onAddToCart.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentItem.id !== this.props.currentItem.id) {
-      this.setState(
-        {
-          currentItem: this.props.currentItem,
-          currentStyles: this.props.currentStyles,
-        },
-        () => {
-          const data = {
-            headers: config,
-            baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
-          };
-          axios
-            .get(
-              `/reviews/meta?product_id=${this.props.currentItem.id.toString()}`,
-              data
-            )
-            .then((response) => {
-              this.setState({ ratings: response.data.ratings }, () => {
-                var rating = 0;
-                var totalRatings = 0;
-                for (var key in this.state.ratings) {
-                  rating += Number(this.state.ratings[key]) * Number(key);
-                  totalRatings += Number(this.state.ratings[key]);
-                }
-                var avgRating = rating / totalRatings;
-                this.setState({
-                  avgRating: avgRating,
-                });
-              });
-            })
-            .catch((err) => {
-              console.error('Error from reviews get Request', err);
+   componentDidMount() {
+    const data = {
+      headers: config,
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+    };
+    axios.get('/products', data)
+      .then(async (response) => {
+        const currentItem = await this.setState({
+          currentItem: response.data[0]
+        });
+        axios
+          .get(`products/${this.state.currentItem.id}/styles`, data)
+          .then(async (content) => {
+            const currentStyles = await this.setState({
+              currentStyles: content.data.results,
             });
-        }
-      );
-    }
+            const defaultImg = await this.getDefaultImg();
+          })
+          .catch((err) => {
+            console.error("Error from styles get request: ", err);
+          });
+      })
+      .catch((err) => {
+        console.error("Error from products fetch: ", err);
+      })
   }
 
-  getDefaultImg() {
+  async getDefaultImg() {
     for (let i = 0; i < this.state.currentStyles.length; i++) {
-      if (this.state.currentStyles[i]['default?'] === true) {
-        this.setState({
+      if (this.state.currentStyles[i]["default?"] === true) {
+        const mainImgIndex = await this.setState({
           mainImgIndex: i,
         });
-        console.log(this.state.currentStyles[i].photos[0].thumbnail_url);
-        return (
-          <div>
-            <img
-              src={this.state.currentStyles[i].photos[0].thumbnail_url}
-            ></img>
-            <p>hello</p>
-          </div>
-        );
+        return;
       }
     }
   }
 
   getQtySelector(i) {
     if (this.state.currentStyles[i]) {
-      for (let j = 0; j < this.state.currentStyles[i].skus.null.quantity; j++) {
-        renderQtyOption(j);
+      for (let key in this.state.currentStyles[i].skus) {
+        for (let j = 0; j < this.state.currentStyles[i].skus[key].quantity; j++) {
+          this.renderQtyOption(j);
+        }
       }
     }
   }
 
   renderQtyOption(j) {
     return <option value={j}>{j}</option>;
+  }
+
+  onAddToCart() {
+    this.setState({ cartCount: this.state.cartCount + 1 });
   }
 
   render() {
@@ -103,8 +90,14 @@ class Overview extends React.Component {
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Grid id="default-img" item xs={7}>
-            {this.getDefaultImg}
+          <Grid item xs={7}>
+            <DefaultImg
+              currentStyles={this.state.currentStyles}
+              mainImgIndex={this.state.mainImgIndex}
+            />
+            <ImageGallery
+              currentStyles={this.state.currentStyles}
+              mainImgIndex={this.state.mainImgIndex}/>
           </Grid>
           <Grid item xs={5}>
             <Grid
@@ -114,10 +107,13 @@ class Overview extends React.Component {
               alignItems="flex-start"
             >
               <Grid item xs>
+                <span>Cart {this.state.cartCount}</span>
+              </Grid>
+              <Grid item xs>
                 <Rating
                   name="half-rating-read"
                   size="large"
-                  value={this.state.avgRating}
+                  value={this.props.avgRating}
                   precision={1 / 4}
                   readOnly
                 />
@@ -134,7 +130,7 @@ class Overview extends React.Component {
               <Grid item xs>
                 <span>STYLE {'>'} SELECTED STYLE</span>
               </Grid>
-              <Styles currentStyles={this.props.currentStyles} />
+              <Styles currentStyles={this.state.currentStyles} />
               <Grid item xs>
                 <Grid
                   container
@@ -166,7 +162,7 @@ class Overview extends React.Component {
                   alignItems="flex-start"
                 >
                   <Grid item xs={9}>
-                    <span>Add to Cart</span>
+                    <button onClick={this.onAddToCart}>Add to Cart</button>
                   </Grid>
                   <Grid item xs={3}>
                     <span>Fav</span>
@@ -176,7 +172,6 @@ class Overview extends React.Component {
             </Grid>
           </Grid>
         </Grid>
-        <ImageGallery />
       </div>
     );
   }

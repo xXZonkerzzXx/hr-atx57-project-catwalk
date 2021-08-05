@@ -1,13 +1,17 @@
 /* eslint-disable func-style */
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Avatar } from "@material-ui/core";
 
 function Styles(props) {
   const renderStyleThumb = (i) => {
     if (props.currentStyles[i]) {
       return (
         <Grid item xs>
-          <img className="style" src={props.currentStyles[i].photos[0].thumbnail_url}></img>
+          <Avatar
+            className="style"
+            alt={props.currentStyles[i].name}
+            src={props.currentStyles[i].photos[0].thumbnail_url}
+          />
         </Grid>
       );
     }

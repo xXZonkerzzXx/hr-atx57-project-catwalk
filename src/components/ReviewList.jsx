@@ -5,13 +5,13 @@ import axios from 'axios';
 import WriteReviewForm from './WriteReviewModal.jsx';
 
 class ReviewList extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       currentItemId: this.props.currentItem.id,
       reviews: [],
       numOfReviews: 2,
+      avgRating: 0,
       showWriteReview: false
     };
     this.onSortChange = this.onSortChange.bind(this);
@@ -20,50 +20,54 @@ class ReviewList extends React.Component {
     this.onCloseClick = this.onCloseClick.bind(this);
   }
 
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.currentItem.id !== this.props.currentItem.id) {
-      this.setState({ currentItemId: this.props.currentItem.id }, () => {
-        const data = {
-          headers: config,
-          baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
-        };
-        axios.get(`reviews?product_id=${this.state.currentItemId.toString()}&count=100`, data)
-          .then((response) => {
-            this.setState({ reviews: response.data.results }, () => {
-              var rating = 0;
-              for (var i = 0; i < this.state.reviews.length; i++) {
-                rating += this.state.reviews[i].rating;
-              }
-              var divisor = this.state.reviews.length;
-              var avgRating = (rating / divisor);
-              this.setState({ avgRating: avgRating });
-            });
-          })
-          .catch((err) => {
-            console.error('Error from reviews get Request', err);
+  componentDidMount() {
+    this.setState({ currentItemId: this.props.currentItem.id }, () => {
+      const data = {
+        headers: config,
+        baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+      };
+      axios
+        .get(
+          `reviews?product_id=${this.state.currentItemId.toString()}&count=100`,
+          data
+        )
+        .then((response) => {
+          this.setState({ reviews: response.data.results }, () => {
+            var rating = 0;
+            for (var i = 0; i < this.state.reviews.length; i++) {
+              rating += this.state.reviews[i].rating;
+            }
+            var divisor = this.state.reviews.length;
+            var avgRating = rating / divisor;
+            this.setState({ avgRating: avgRating });
           });
-      });
-    }
+        })
+        .catch((err) => {
+          console.error("Error from reviews get Request", err);
+        });
+    });
   }
 
   onHelpfulClick(event) {
     const data = {
       headers: config,
-      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/'
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
     };
-    axios.put(`reviews/${this.props.review.review_id}/helpful`, null, data)
+    axios
+      .put(`reviews/${this.props.review.review_id}/helpful`, null, data)
       .then(() => {
-        this.setState({helpful: this.state.helpful + 1, helpfulClicked: true});
+        this.setState({
+          helpful: this.state.helpful + 1,
+          helpfulClicked: true,
+        });
       })
       .catch((err) => {
-        console.error('Error', err);
+        console.error("Error", err);
       });
   }
 
-
   onSortChange(event) {
-    if (event.target.value === 'relevant') {
+    if (event.target.value === "relevant") {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         if (a.date !== b.date) {
           var aDate = new Date(a.date);
@@ -74,12 +78,12 @@ class ReviewList extends React.Component {
         }
       });
       this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === 'helpful') {
+    } else if (event.target.value === "helpful") {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return b.helpfulness - a.helpfulness;
       });
       this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === 'newest') {
+    } else if (event.target.value === "newest") {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return new Date(b.date).valueOf() - new Date(a.date).valueOf();
       });
@@ -102,11 +106,12 @@ class ReviewList extends React.Component {
 
   render() {
     return (
-
       <div id="review-module">
         <div id="review-header">
           <h2>{this.state.reviews.length} reviews</h2>
-          <label htmlFor="sort-list"><b>Sorted By:  </b></label>
+          <label htmlFor="sort-list">
+            <b>Sorted By: </b>
+          </label>
           <select name="sort-list" onChange={this.onSortChange}>
             <option value="relevant">Relevant</option>
             <option value="newest">Newest</option>
@@ -117,7 +122,14 @@ class ReviewList extends React.Component {
           <div className="overflow-auto">
             {this.state.reviews.map((review, index) => {
               if (index < this.state.numOfReviews) {
-                return <ReviewTile key={index} review={review} currentItemId={this.state.currentItemId} onHelpfulClick={this.onHelpfulClick}/>;
+                return (
+                  <ReviewTile
+                    key={index}
+                    review={review}
+                    currentItemId={this.state.currentItemId}
+                    onHelpfulClick={this.onHelpfulClick}
+                  />
+                );
               }
             })}
           </div>
@@ -128,7 +140,6 @@ class ReviewList extends React.Component {
           <WriteReviewForm showWriteReview={this.state.showWriteReview} characteristics={this.props.characteristics} chars={this.props.chars} onCloseClick={this.onCloseClick}/>
         </div>
       </div>
-
     );
   }
 }
