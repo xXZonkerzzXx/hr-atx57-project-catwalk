@@ -6,9 +6,8 @@ function Styles(props) {
   const renderStyleThumb = (i) => {
     if (props.currentStyles[i]) {
       return (
-        <Grid item xs>
+        <Grid key={i} item xs className="style">
           <Avatar
-            className="style"
             alt={props.currentStyles[i].name}
             src={props.currentStyles[i].photos[0].thumbnail_url}
           />

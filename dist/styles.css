@@ -170,16 +170,23 @@
   text-align: center;
   width: auto;
 }
-/* .slide-image {
-  height: 400px;
-  width: auto;
-} */
 .my-gallery figure {
   margin: 0px;
 }
 .slide-image .MuiAvatar-circular {
   margin-right: 50px;
+  height: 50px;
+  width: 50px;
+}
+.style .MuiAvatar-circular {
+  margin: 20px;
+  height: 50px;
+  width: 50px;
 }
 #new-review-product-characteristics {
   margin-top: 20px
+}
+.default-img {
+  height: 550px;
+  width: auto;
 }
