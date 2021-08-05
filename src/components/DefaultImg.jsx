@@ -6,7 +6,7 @@ class DefaultImg extends React.Component {
   }
 
   render() {
-    if (this.props.mainImgIndex) {
+    if (this.props.currentStyles[this.props.mainImgIndex] !== undefined) {
       return (
         <div>
           <img
@@ -15,7 +15,6 @@ class DefaultImg extends React.Component {
                 .thumbnail_url
             }
           ></img>
-          <p>hello</p>
         </div>
       );
     } else {
