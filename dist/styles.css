@@ -118,6 +118,9 @@
   height: 50px;
   width: 20%;
 }
+#new-review-product-characteristics {
+  margin-top: 20px
+}
 
 /* Review Summary */
 
@@ -193,9 +196,7 @@
   height: 50px;
   width: 50px;
 }
-#new-review-product-characteristics {
-  margin-top: 20px
-}
+
 .default-img {
   height: 550px;
   width: auto;

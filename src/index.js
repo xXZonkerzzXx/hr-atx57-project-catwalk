@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 const compression = require('compression');
 
-// app.use(compression());
+app.use(compression());
 app.use(express.static(path.join(__dirname, '../dist')));
 app.use(cors());
 
