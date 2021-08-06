@@ -7,25 +7,43 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 
 
 const WriteReviewForm = function (props) {
-  const [validated, setValidated] = useState(true);
-  const [value, setValue] = useState(0);
+  const [validated, setValidated] = useState(false);
+  const [ratingValue, setRatingValue] = useState(0);
   const [hover, setHover] = useState(0);
   const [showModal, setShowModal] = useState(props.showWriteReview);
   const [recommended, setRecommended] = useState(false);
-  const [charRating, setCharRating] = useState(
-    {
-      Size: 0,
-      Width: 0,
-      Comfort: 0,
-      Quality: 0,
-      Length: 0,
-      Fit: 0
-    });
-
+  const [charRating, setCharRating] = useState({});
+  const [reviewSummary, setReviewSummary] = useState('');
+  const [reviewBody, setReviewBody] = useState('');
+  const [files, setFiles] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
+    const data = {
+      headers: config,
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+    };
+    var newReviewData = {
+      product_id: props.currentItemId,
+      rating: ratingValue,
+      summary: reviewSummary,
+      body: reviewBody,
+      recommend: recommended,
+      name: nickname,
+      email: email,
+      photos: files,
+      characteristics: charRating
+    }
+    axios.post('/reviews', newReviewData, data)
+      .then((response) => {
+        console.log('Review posted');
+      })
+      .catch((err) => {
+        console.log(typeof newReviewData.recommend);
+        console.error(err);
+      })
   };
 
   useEffect(() => {
@@ -39,8 +57,15 @@ const WriteReviewForm = function (props) {
     5: 'Great'
   };
 
-
-
+  const getFiles = (obj) => {
+    var files = [];
+    for (var index in obj) {
+      if (Number(index) <= obj.length - 1) {
+        files.push(obj[index].name);
+      }
+    }
+    return files;
+  }
 
   const ProductChars = Object.keys(props.characteristics);
 
@@ -55,19 +80,20 @@ const WriteReviewForm = function (props) {
         <Form validated={validated} onSubmit={handleSubmit}>
           <Row>
             <Col>
-              <Form.Group as={Col}>
+              <Form.Group as={Col} required={true}>
                 <Rating
                   style={{display: 'inline-block'}}
                   name="new-review-rating"
                   size="large"
                   precision={1}
                   onClick={(event) => {
-                    setValue(Number(event.target.value));
+                    setRatingValue(Number(event.target.value));
                   }}
                   onChangeActive={(event, newHover) => {
                     setHover(newHover);
                   }}
-                /> {value !== null && <Box style={{display: 'inline-block'}}ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+
+                /> {ratingValue !== null && <Box style={{display: 'inline-block'}}ml={2}>{labels[hover !== -1 ? hover : ratingValue]}</Box>}
               </Form.Group>
             </Col>
             <Col>
@@ -80,8 +106,8 @@ const WriteReviewForm = function (props) {
                   label="yes"
                   name="recommended"
                   value={true}
-                  onChange={(event) => {
-                    setRecommended(event.target.value);
+                  onChange={() => {
+                    setRecommended(true);
                   }}
                 />
                 <Form.Check
@@ -90,7 +116,7 @@ const WriteReviewForm = function (props) {
                   name="recommended"
                   value={false}
                   onClick={(event) => {
-                    setRecommended(event.target.value);
+                    setRecommended(false);
                   }}
                 />
               </Form.Group>
@@ -113,8 +139,9 @@ const WriteReviewForm = function (props) {
                           name={char}
                           value={(index + 1)}
                           onChange={(event) => {
-                            setCharRating(charRating[char] = event.target.value);
-                            console.log(event.target.value);
+                            var characteristicId = (props.characteristics[char].id);
+                            console.log(typeof characteristicId)
+                            setCharRating({ ...charRating, [characteristicId]: Number(event.target.value)});
                           }}
                         />
                       );
@@ -134,6 +161,9 @@ const WriteReviewForm = function (props) {
               type="text"
               placeholder="Example: Best purchase ever!"
               maxLength="60"
+              onChange={(event) => {
+                setReviewSummary(event.target.value);
+              }}
             />
           </Row>
           <Row>
@@ -145,13 +175,23 @@ const WriteReviewForm = function (props) {
               placeholder="Why did you like the product or not?"
               maxLength="1000"
               minLength="50"
+              onChange={(event) => {
+                setReviewBody(event.target.value);
+              }}
             />
           </Row>
           <Row>
             <Form.Label>
               Upload Photos of your product
             </Form.Label>
-            <Form.Control type="file" multiple/>
+            <Form.Control
+              type="file"
+              multiple
+              onChange={(event) => {
+                console.log(event)
+                setFiles(getFiles(event.target.files))
+              }}
+              />
           </Row>
           <Row>
             <Form.Label>
@@ -161,6 +201,9 @@ const WriteReviewForm = function (props) {
               type="text"
               placeholder="Example: jackson11!"
               maxLength="60"
+              onChange={(event) => {
+                setNickname(event.target.value);
+              }}
             />
           </Row>
           <Row>
@@ -171,6 +214,11 @@ const WriteReviewForm = function (props) {
               type="email"
               placeholder="Example: jackson11@email.com"
               maxLength="60"
+              onChange={(event) => {
+                if (event.target.validity.valid) {
+                  setEmail(event.target.value);
+                }
+              }}
             />
           </Row>
           <Row>

@@ -108,8 +108,6 @@ class ReviewList extends React.Component {
     this.setState({showWriteReview: false});
   }
 
-
-
   render() {
     return (
       <div id="review-module">
@@ -143,7 +141,7 @@ class ReviewList extends React.Component {
         <div id="review-list-buttons">
           {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
           <button id="write-review" onClick={this.onWriteReviewClick}>Write Review</button>
-          <WriteReviewForm showWriteReview={this.state.showWriteReview} characteristics={this.state.characteristics || {}} chars={this.state.chars} onCloseClick={this.onCloseClick}/>
+          <WriteReviewForm showWriteReview={this.state.showWriteReview} currentItemId={this.state.currentItemId} characteristics={this.state.characteristics || {}} chars={this.state.chars} onCloseClick={this.onCloseClick}/>
         </div>
       </div>
     );

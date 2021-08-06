@@ -1,5 +1,7 @@
 /* @import "~react-image-gallery/styles/css/image-gallery.css"; */
 
+/* Review List */
+
 .reviews {
   display: grid;
   grid-template-columns: .5fr, 4fr;
@@ -15,9 +17,9 @@
   width: 1200px;
   margin-left: 50px;
   margin-right: 12.5%;
-  padding: 15px;
   max-height: 1050px;
   grid-column: 2 / 3;
+  row-gap: 20px;
 }
 #review-list {
   height: auto;
@@ -29,11 +31,22 @@
 }
 #review-header {
   grid-row: 1 / 2;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   position: relative;
   background-color: white;
   z-index: 2;
 }
+#more-reviews {
+  margin-left: 5%;
+  margin-right: 20px;
+}
+#review-list-buttons {
+  grid-row: 3 / 4;
+  padding-top: 20px;
+}
+
+/* Review Tiles */
+
 .review-tile {
   display: grid;
   grid-template-columns: 1.5fr 2fr 2fr;
@@ -105,14 +118,9 @@
   height: 50px;
   width: 20%;
 }
-#more-reviews {
-  margin-left: 5%;
-  margin-right: 20px;
-}
-#review-list-buttons {
-  grid-row: 3 / 4;
-  padding-top: 20px;
-}
+
+/* Review Summary */
+
 #progress-bars {
   padding-top: 20px;
 }
@@ -146,9 +154,9 @@
   width: 70px;
   border-radius: 50%;
 }
-#review-photo-modal {
-  size: auto;
-}
+
+/* Review Photo Modal */
+
 .modal-content {
   position: absolute !important;
   width: 1200px !important;
@@ -159,6 +167,9 @@
   height: 950px;
   width: 1165px;
 }
+
+/* Overview */
+
 .swiper-container{
   width: 100%;
 }
