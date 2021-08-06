@@ -39,6 +39,7 @@ class ReviewTile extends React.Component {
     }
   }
 
+
   onReportClick() {
     this.setState({ reported: true });
     const data = {

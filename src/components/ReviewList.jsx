@@ -28,7 +28,7 @@ class ReviewList extends React.Component {
       };
       axios
         .get(
-          `reviews?product_id=${this.state.currentItemId.toString()}&count=100`,
+          `reviews?product_id=${this.state.currentItemId.toString()}&count=100&sort=relevant`,
           data
         )
         .then((response) => {
@@ -46,6 +46,12 @@ class ReviewList extends React.Component {
           console.error("Error from reviews get Request", err);
         });
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.setState({characteristics: this.props.characteristics, chars: this.props.chars});
+    }
   }
 
   onHelpfulClick(event) {
@@ -102,8 +108,6 @@ class ReviewList extends React.Component {
     this.setState({showWriteReview: false});
   }
 
-
-
   render() {
     return (
       <div id="review-module">
@@ -137,7 +141,7 @@ class ReviewList extends React.Component {
         <div id="review-list-buttons">
           {this.state.reviews.length > this.state.numOfReviews ? <button id="more-reviews" onClick={this.onMoreReviewsClick}>More Reviews</button> : null}
           <button id="write-review" onClick={this.onWriteReviewClick}>Write Review</button>
-          <WriteReviewForm showWriteReview={this.state.showWriteReview} characteristics={this.props.characteristics} chars={this.props.chars} onCloseClick={this.onCloseClick}/>
+          <WriteReviewForm showWriteReview={this.state.showWriteReview} currentItemId={this.state.currentItemId} characteristics={this.state.characteristics || {}} chars={this.state.chars} onCloseClick={this.onCloseClick}/>
         </div>
       </div>
     );
