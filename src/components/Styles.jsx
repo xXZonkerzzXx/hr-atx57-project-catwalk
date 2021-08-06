@@ -3,34 +3,23 @@ import React from "react";
 import { Grid, Avatar } from "@material-ui/core";
 
 function Styles(props) {
-  const renderStyleThumb = (i) => {
-    if (props.currentStyles[i]) {
-      return (
-        <Grid key={i} id={i} onClick={props.setMainImgIndex} item xs className="style">
-          <Avatar
-            alt={props.currentStyles[i].name}
-            src={props.currentStyles[i].photos[0].thumbnail_url}
-          />
-        </Grid>
-      );
-    }
-  };
 
-  const renderStyles1stRow = () => {
-    let array = [];
-    for (let i = 0; i <= 3; i++) {
-      array.push(renderStyleThumb(i));
-    }
-    return array;
-  };
 
-  const renderStyles2ndRow = () => {
-    let array = [];
-    for (let i = 4; i <= 7; i++) {
-      array.push(renderStyleThumb(i));
-    }
-    return array;
-  };
+  // const renderStyles1stRow = () => {
+  //   let array = [];
+  //   for (let i = 0; i <= 7; i++) {
+  //     array.push(renderStyleThumb(i));
+  //   }
+  //   return array;
+  // };
+
+  // const renderStyles2ndRow = () => {
+  //   let array = [];
+  //   for (let i = 4; i <= 7; i++) {
+  //     array.push(renderStyleThumb(i));
+  //   }
+  //   return array;
+  // };
 
   return (
     <div>
@@ -38,20 +27,18 @@ function Styles(props) {
         <Grid
           container
           direction="row"
-          justifyContent="center"
+          justifyContent="flex-start"
           alignItems="flex-start"
         >
-          {renderStyles1stRow()}
-        </Grid>
-      </Grid>
-      <Grid item xs>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="flex-start"
-        >
-          {renderStyles2ndRow()}
+          {props.currentStyles.map((style, index) => {
+            return (
+              <Grid key={index} stylethumb={index} onClick={props.setMainImgIndex} item xs={3} className="style">
+                <Avatar
+                  alt={style.name}
+                  src={style.photos[0].thumbnail_url}
+                />
+              </Grid>
+            )})}
         </Grid>
       </Grid>
     </div>

@@ -354,4 +354,8 @@ config.js
 
 *.bundle*
 
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> a066a9ac3d613ba30ebb2e6ed321def27590328a
