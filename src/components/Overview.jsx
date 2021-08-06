@@ -195,6 +195,22 @@ class Overview extends React.Component {
                   </Grid>
                 </Grid>
               </Grid>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="baseline"
+              >
+                <Grid item xs>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=localhost:3000&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet</a>
+                </Grid>
+                <Grid item xs>
+                <a data-pin-do="buttonFollow" href="https://www.pinterest.com/PlaidOPuss/">Plaid&nbsp;O'Puss</a>
+                </Grid>
+                <Grid item xs>
+                <div class="fb-like" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

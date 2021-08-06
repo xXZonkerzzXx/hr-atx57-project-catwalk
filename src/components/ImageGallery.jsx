@@ -45,7 +45,6 @@ class ImageGallery extends React.Component {
   }
 
   render() {
-    console.log(this.props.currentStyles);
     return (
       <div className="swiper-container">
         <div className="swiper-wrapper">
