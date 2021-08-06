@@ -93,7 +93,7 @@ class Overview extends React.Component {
   }
 
   renderQtyOption(j) {
-    return <option value={j}>{j}</option>;
+    return <option value={j} key={j}>{j}</option>;
   }
 
   onAddToCart() {
