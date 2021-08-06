@@ -7,10 +7,21 @@ import ModalHeader from 'react-bootstrap/ModalHeader';
 
 
 const WriteReviewForm = function (props) {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(true);
   const [value, setValue] = useState(0);
   const [hover, setHover] = useState(0);
   const [showModal, setShowModal] = useState(props.showWriteReview);
+  const [recommended, setRecommended] = useState(false);
+  const [charRating, setCharRating] = useState(
+    {
+      Size: 0,
+      Width: 0,
+      Comfort: 0,
+      Quality: 0,
+      Length: 0,
+      Fit: 0
+    });
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,8 +61,8 @@ const WriteReviewForm = function (props) {
                   name="new-review-rating"
                   size="large"
                   precision={1}
-                  onChange={(event, newValue) => {
-                    setValue(newValue);
+                  onClick={(event) => {
+                    setValue(Number(event.target.value));
                   }}
                   onChangeActive={(event, newHover) => {
                     setHover(newHover);
@@ -67,13 +78,22 @@ const WriteReviewForm = function (props) {
                 <Form.Check
                   type="radio"
                   label="yes"
-                  name="recommended" />
+                  name="recommended"
+                  value={true}
+                  onChange={(event) => {
+                    setRecommended(event.target.value);
+                  }}
+                />
                 <Form.Check
                   type="radio"
                   label="no"
-                  name="recommended" />
+                  name="recommended"
+                  value={false}
+                  onClick={(event) => {
+                    setRecommended(event.target.value);
+                  }}
+                />
               </Form.Group>
-
             </Col>
           </Row>
           <Row id="new-review-product-characteristics">
@@ -91,6 +111,11 @@ const WriteReviewForm = function (props) {
                           type="radio"
                           label={propChar.label}
                           name={char}
+                          value={(index + 1)}
+                          onChange={(event) => {
+                            setCharRating(charRating[char] = event.target.value);
+                            console.log(event.target.value);
+                          }}
                         />
                       );
                     })}

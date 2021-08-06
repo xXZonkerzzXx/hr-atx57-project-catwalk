@@ -117,6 +117,7 @@ class App extends React.Component {
               .then(async (response) => {
                 const ratingsSet = await this.setState({
                   ratings: response.data.ratings,
+                  characteristics: response.data.characteristics
                 });
                 const avgRatingSet = await this.getAvgRating();
               })
