@@ -84,14 +84,12 @@ class Overview extends React.Component {
     });
   }
 
-  getQtySelector(i) {
-    if (this.state.currentStyles[i]) {
-      for (let key in this.state.currentStyles[i].skus) {
-        for (let j = 0; j < this.state.currentStyles[i].skus[key].quantity; j++) {
-          this.renderQtyOption(j);
-        }
-      }
+  getQtySelector() {
+    let array = [];
+    for (let j = 1; j < 15; j++) {
+      array.push(this.renderQtyOption(j));
     }
+    return array;
   }
 
   renderQtyOption(j) {
@@ -164,8 +162,8 @@ class Overview extends React.Component {
                   justifyContent="center"
                   alignItems="flex-start"
                 >
-                  <Grid item xs={7}>
-                    <select name="Select Size" id="size-select">
+                  <Grid item xs={3}>
+                    <select name="Select Size" className='selector'>
                       <option value="XS">XS</option>
                       <option value="S">S</option>
                       <option value="M">M</option>
@@ -173,9 +171,9 @@ class Overview extends React.Component {
                       <option value="XL">XL</option>
                     </select>
                   </Grid>
-                  <Grid item xs>
-                    <select name="Select Quantity" id="qty-select">
-                      {this.getQtySelector(this.state.mainImgIndex)}
+                  <Grid item xs={3}>
+                    <select name="Select Quantity" className='selector'>
+                      {this.getQtySelector()}
                     </select>
                   </Grid>
                 </Grid>
@@ -188,10 +186,10 @@ class Overview extends React.Component {
                   alignItems="flex-start"
                 >
                   <Grid item xs={9}>
-                    <button onClick={this.onAddToCart}>Add to Cart</button>
+                    <button className="add-fav" onClick={this.onAddToCart}>Add to Cart</button>
                   </Grid>
                   <Grid item xs={3}>
-                    <span>Fav</span>
+                    <button className='add-fav' >Fav</button>
                   </Grid>
                 </Grid>
               </Grid>
@@ -202,13 +200,13 @@ class Overview extends React.Component {
                 alignItems="baseline"
               >
                 <Grid item xs>
-                <a href="https://twitter.com/intent/tweet?button_hashtag=localhost:3000&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet</a>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=localhost:3000&ref_src=twsrc%5Etfw" className="twitter-hashtag-button" data-show-count="false">Tweet</a>
                 </Grid>
                 <Grid item xs>
                 <a data-pin-do="buttonFollow" href="https://www.pinterest.com/PlaidOPuss/">Plaid&nbsp;O'Puss</a>
                 </Grid>
                 <Grid item xs>
-                <div class="fb-like" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                <div className="fb-like" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                 </Grid>
               </Grid>
             </Grid>

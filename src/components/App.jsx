@@ -149,10 +149,9 @@ class App extends React.Component {
           </Grid>
           <Grid item xs={3}>
             <img id="logo" alt='plaidOPuss Logo' src={Logo}></img>
-            {/* <div id='logo'>Text</div> */}
           </Grid>
           <Grid item xs={3}>
-            <input
+            <input id='search'
               value={this.state.input}
               onChange={this.onSearchBarInput}
             ></input>
