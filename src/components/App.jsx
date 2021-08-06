@@ -7,6 +7,7 @@ import ReviewSummary from "./ReviewSummary.jsx";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 import config from "../../config.js";
+import Logo from './imgs/PlaidOPuss.png';
 
 class App extends React.Component {
   constructor(props) {
@@ -147,7 +148,8 @@ class App extends React.Component {
             <h1>Plaid O'Puss</h1>
           </Grid>
           <Grid item xs={3}>
-            <img id="logo" src="../../dist/imgs/PlaidOPuss.png"></img>
+            <img id="logo" alt='plaidOPuss Logo' src={Logo}></img>
+            {/* <div id='logo'>Text</div> */}
           </Grid>
           <Grid item xs={3}>
             <input
