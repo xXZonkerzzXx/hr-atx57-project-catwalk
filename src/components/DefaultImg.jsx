@@ -12,8 +12,7 @@ class DefaultImg extends React.Component {
           <img
             className='default-img'
             src={
-              this.props.currentStyles[this.props.mainImgIndex].photos[0]
-                .thumbnail_url
+              this.props.currentStyles[this.props.mainImgIndex].photos[this.props.styleIndex].thumbnail_url
             }
           ></img>
         </div>

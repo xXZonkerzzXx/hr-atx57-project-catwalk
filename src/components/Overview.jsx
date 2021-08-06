@@ -18,11 +18,15 @@ class Overview extends React.Component {
       currentStyles: props.currentStyles || [],
       mainImgIndex: null,
       cartCount: 0,
+      styleIndex: 0
     };
     this.getDefaultImg = this.getDefaultImg.bind(this);
     this.getQtySelector = this.getQtySelector.bind(this);
     this.renderQtyOption = this.renderQtyOption.bind(this);
     this.onAddToCart = this.onAddToCart.bind(this);
+    this.getStyleName = this.getStyleName.bind(this);
+    this.setStyleIndex = this.setStyleIndex.bind(this);
+    this.setMainImgIndex = this.setMainImgIndex.bind(this);
   }
 
    componentDidMount() {
@@ -63,6 +67,23 @@ class Overview extends React.Component {
     }
   }
 
+  getStyleName() {
+    if (this.state.currentStyles[this.state.mainImgIndex]) {
+      return this.state.currentStyles[this.state.mainImgIndex].name;
+    }
+  }
+
+  setStyleIndex(e) {
+    this.setState({ styleIndex: e.target.parentElement.parentElement.attributes[0].value });
+  }
+
+  setMainImgIndex(e) {
+    this.setState({
+      mainImgIndex: e.target.parentElement.parentElement.attributes[1].value,
+      styleIndex: 0
+    });
+  }
+
   getQtySelector(i) {
     if (this.state.currentStyles[i]) {
       for (let key in this.state.currentStyles[i].skus) {
@@ -94,10 +115,12 @@ class Overview extends React.Component {
             <DefaultImg
               currentStyles={this.state.currentStyles}
               mainImgIndex={this.state.mainImgIndex}
+              styleIndex={this.state.styleIndex}
             />
             <ImageGallery
               currentStyles={this.state.currentStyles}
-              mainImgIndex={this.state.mainImgIndex}/>
+              mainImgIndex={this.state.mainImgIndex}
+              setStyleIndex={this.setStyleIndex}/>
           </Grid>
           <Grid item xs={5}>
             <Grid
@@ -128,9 +151,12 @@ class Overview extends React.Component {
                 <span>${this.state.currentItem.default_price}</span>
               </Grid>
               <Grid item xs>
-                <span>STYLE {'>'} SELECTED STYLE</span>
+                <span>STYLE {'>'} {this.getStyleName()}</span>
               </Grid>
-              <Styles currentStyles={this.state.currentStyles} />
+              <Styles
+                currentStyles={this.state.currentStyles}
+                setMainImgIndex={this.setMainImgIndex}
+              />
               <Grid item xs>
                 <Grid
                   container
@@ -167,6 +193,22 @@ class Overview extends React.Component {
                   <Grid item xs={3}>
                     <span>Fav</span>
                   </Grid>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="baseline"
+              >
+                <Grid item xs>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=localhost:3000&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet</a>
+                </Grid>
+                <Grid item xs>
+                <a data-pin-do="buttonFollow" href="https://www.pinterest.com/PlaidOPuss/">Plaid&nbsp;O'Puss</a>
+                </Grid>
+                <Grid item xs>
+                <div class="fb-like" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                 </Grid>
               </Grid>
             </Grid>

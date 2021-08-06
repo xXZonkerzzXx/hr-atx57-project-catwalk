@@ -39,13 +39,12 @@ class ImageGallery extends React.Component {
   getSwiperSlides() {
     if (this.props.currentStyles[this.props.mainImgIndex] !== undefined) {
       return this.props.currentStyles[this.props.mainImgIndex].photos.map((photo, index) => {
-        return <div key={index} className="slide-image"><Avatar alt={this.props.currentStyles[this.props.mainImgIndex].name} src={photo.thumbnail_url} /></div>
+        return <div key={index} id={index} onClick={this.props.setStyleIndex} className="slide-image"><Avatar alt={this.props.currentStyles[this.props.mainImgIndex].name} src={photo.thumbnail_url} /></div>
       })
     }
   }
 
   render() {
-    console.log(this.props.currentStyles[this.props.mainImgIndex]);
     return (
       <div className="swiper-container">
         <div className="swiper-wrapper">
