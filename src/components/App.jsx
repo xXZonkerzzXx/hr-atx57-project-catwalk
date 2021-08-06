@@ -144,7 +144,10 @@ class App extends React.Component {
           alignItems="baseline"
         >
           <Grid item xs={3}>
-            <h1>Logo</h1>
+            <h1>Plaid O'Puss</h1>
+          </Grid>
+          <Grid item xs={3}>
+            <img id="logo" src="../../dist/imgs/PlaidOPuss.png"></img>
           </Grid>
           <Grid item xs={3}>
             <input

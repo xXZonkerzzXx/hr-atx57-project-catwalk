@@ -190,3 +190,13 @@
   height: 550px;
   width: auto;
 }
+#logo {
+  height: 104px;
+  width: auto;
+}
+.swiper-button-next {
+  padding-left: 20px
+}
+.swiper-button-prev {
+  padding-right: 20px
+}

@@ -6,7 +6,7 @@ function Styles(props) {
   const renderStyleThumb = (i) => {
     if (props.currentStyles[i]) {
       return (
-        <Grid key={i} item xs className="style">
+        <Grid key={i} id={i} onClick={props.setMainImgIndex} item xs className="style">
           <Avatar
             alt={props.currentStyles[i].name}
             src={props.currentStyles[i].photos[0].thumbnail_url}
