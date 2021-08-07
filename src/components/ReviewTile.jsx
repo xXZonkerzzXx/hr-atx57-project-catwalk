@@ -20,12 +20,14 @@ class ReviewTile extends React.Component {
       photos: this.props.review.photos,
       helpfulClicked: false,
       reported: false,
-      showImgModal: false
+      showImgModal: false,
+      notHelpful: 0
     };
     this.onReportClick = this.onReportClick.bind(this);
     this.onHelpfulClick = this.props.onHelpfulClick.bind(this);
     this.onPhotoClick = this.onPhotoClick.bind(this);
     this.onModalClose = this.onModalClose.bind(this);
+    this.onNotHelpfulClick = this.onNotHelpfulClick.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -37,6 +39,13 @@ class ReviewTile extends React.Component {
         photos: this.props.review.photos
       });
     }
+  }
+
+  onNotHelpfulClick() {
+    this.setState({
+      helpfulClicked: true,
+      notHelpful: this.state.notHelpful + 1
+    });
   }
 
 
@@ -82,7 +91,7 @@ class ReviewTile extends React.Component {
           </div>
           {this.props.review.recommend ? <p id="recommended">&#10003; I recommend this product!</p> : null}
           {this.props.review.response ? <p id="seller-response"><b>Response from seller:</b> <br></br><br></br>{this.props.review.response}</p> : null}
-          <p id="is-helpful"> Helpful? <button type='submit' onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u> &#40;{this.state.helpful}&#41;</button>   <button id="not-helpful"><u>No</u></button></p>
+          <p id="is-helpful"> Helpful? <button type='submit' onClick={!this.state.helpfulClicked ? this.onHelpfulClick : null}><u>Yes</u> &#40;{this.state.helpful}&#41;</button>   <button id="not-helpful" onClick={!this.state.helpfulClicked ? this.onNotHelpfulClick : null}><u>No</u>&#40;{this.state.notHelpful}&#41;</button></p>
           <p id="report-review" onClick={this.onReportClick}><u>Report</u></p>
           <Modal show={this.state.showImgModal}>
             <ModalHeader >

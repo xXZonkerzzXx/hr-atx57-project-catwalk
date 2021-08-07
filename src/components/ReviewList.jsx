@@ -21,6 +21,7 @@ class ReviewList extends React.Component {
   }
 
   componentDidMount() {
+
     this.setState({ currentItemId: this.props.currentItem.id }, () => {
       const data = {
         headers: config,
@@ -73,28 +74,18 @@ class ReviewList extends React.Component {
   }
 
   onSortChange(event) {
-    if (event.target.value === 'relevant') {
-      var sortedReviews = this.state.reviews.sort((a, b) => {
-        if (a.date !== b.date) {
-          var aDate = new Date(a.date);
-          var bDate = new Date(b.date);
-          return bDate.valueOf() - aDate.valueOf();
-        } else {
-          return b.helpfulness - a.helpfulness;
-        }
+    console.log(event.target.value);
+    const data = {
+      headers: config,
+      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
+    };
+    axios.get(`reviews?product_id=${this.state.currentItemId.toString()}&count=100&sort=${event.target.value}`, data)
+      .then((response) => {
+        this.setState({reviews: response.data.results});
+      })
+      .catch((err) => {
+        console.error(err);
       });
-      this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === 'helpful') {
-      var sortedReviews = this.state.reviews.sort((a, b) => {
-        return b.helpfulness - a.helpfulness;
-      });
-      this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === 'newest') {
-      var sortedReviews = this.state.reviews.sort((a, b) => {
-        return new Date(b.date).valueOf() - new Date(a.date).valueOf();
-      });
-      this.setState({ reviews: sortedReviews });
-    }
   }
 
   onMoreReviewsClick() {
