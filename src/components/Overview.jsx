@@ -200,13 +200,13 @@ class Overview extends React.Component {
                 alignItems="baseline"
               >
                 <Grid item xs>
-                <a href="https://twitter.com/intent/tweet?button_hashtag=localhost:3000&ref_src=twsrc%5Etfw" className="twitter-hashtag-button" data-show-count="false">Tweet</a>
+                <a href="https://twitter.com/intent/tweet?button_hashtag=PlaidOPuss&ref_src=twsrc%5Etfw" className="twitter-hashtag-button social-media" data-show-count="false">Tweet #PlaidOPuss</a>
                 </Grid>
                 <Grid item xs>
-                <a data-pin-do="buttonFollow" href="https://www.pinterest.com/PlaidOPuss/">Plaid&nbsp;O'Puss</a>
+                <a data-pin-do="buttonFollow" className="social-media" href="https://www.pinterest.com/PlaidOPuss/">Plaid&nbsp;O'Puss</a>
                 </Grid>
                 <Grid item xs>
-                <div className="fb-like" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                <div className="fb-like social-media" data-href="https://www.facebook.com/Plaid-OPuss-136523078581296/" data-width="80" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                 </Grid>
               </Grid>
             </Grid>

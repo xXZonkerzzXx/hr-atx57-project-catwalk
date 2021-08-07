@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Reviews from "./ReviewList.jsx";
-import Overview from "./Overview.jsx";
+import Overview, { onSearchBarSubmit } from "./Overview.jsx";
 import ImageGallery from "./ImageGallery.jsx";
 import ReviewSummary from "./ReviewSummary.jsx";
 import { Grid } from "@material-ui/core";
@@ -80,6 +80,13 @@ class App extends React.Component {
     });
   }
 
+  async onSearchBarSubmit(e) {
+    e.preventDefault();
+    const currentItemSet = await this.setState({
+      currentItem: this.props.allItems[Number(this.props.input)]
+    });
+  }
+
   async getAvgRating() {
     var rating = 0;
     var totalRatings = 0;
@@ -101,8 +108,9 @@ class App extends React.Component {
     axios
       .get("/products", data)
       .then(async (response) => {
-        const currentItemSet = await this.setState({
+        const itemsSet = await this.setState({
           currentItem: response.data[0],
+          allItems: response.data
         });
         axios
           .get(`products/${this.state.currentItem.id}/styles`, data)
@@ -152,10 +160,13 @@ class App extends React.Component {
             <img id="logo" alt='plaidOPuss Logo' src={Logo}></img>
           </Grid>
           <Grid item xs={3}>
-            <input id='search'
+            <form onSubmit={this.onSearchBarSubmit}>
+            <input className='search'
               value={this.state.input}
               onChange={this.onSearchBarInput}
             ></input>
+            <button className='submit' type="submit">Search</button>
+            </form>
           </Grid>
         </Grid>
         <Grid
@@ -172,7 +183,10 @@ class App extends React.Component {
           </Grid>
         </Grid>
 
-        <Overview avgRating={this.state.avgRating} />
+        <Overview avgRating={this.state.avgRating}
+          input={this.state.input}
+          allItems={this.state.allItems}
+          onSearchBarSubmit={this.onSearchBarSubmit}/>
 
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} chars={this.state.chars}/>
