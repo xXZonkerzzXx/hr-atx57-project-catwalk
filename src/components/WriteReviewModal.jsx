@@ -15,7 +15,7 @@ const WriteReviewForm = function (props) {
   const [charRating, setCharRating] = useState({});
   const [reviewSummary, setReviewSummary] = useState('');
   const [reviewBody, setReviewBody] = useState('');
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState([]);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
 
@@ -36,11 +36,14 @@ const WriteReviewForm = function (props) {
       photos: files,
       characteristics: charRating
     }
+    console.log(newReviewData);
     axios.post('/reviews', newReviewData, data)
       .then((response) => {
         console.log('Review posted');
+        setShowModal(false);
       })
       .catch((err) => {
+        console.log(newReviewData);
         console.log(typeof newReviewData.recommend);
         console.error(err);
       })

@@ -129,11 +129,7 @@ class App extends React.Component {
   render() {
     return (
       <main style={{ padding: 20 }}>
-
-
-        <Overview avgRating={this.state.avgRating}
-          allItems={this.state.allItems}/>
-
+        <Overview avgRating={this.state.avgRating}/>
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} chars={this.state.chars}/>
           <Reviews currentItem={this.state.currentItem} characteristics={this.state.characteristics} chars={this.state.chars}/>
