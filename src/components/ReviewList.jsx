@@ -24,7 +24,7 @@ class ReviewList extends React.Component {
     this.setState({ currentItemId: this.props.currentItem.id }, () => {
       const data = {
         headers: config,
-        baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+        baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
       };
       axios
         .get(
@@ -43,7 +43,7 @@ class ReviewList extends React.Component {
           });
         })
         .catch((err) => {
-          console.error("Error from reviews get Request", err);
+          console.error('Error from reviews get Request', err);
         });
     });
   }
@@ -57,7 +57,7 @@ class ReviewList extends React.Component {
   onHelpfulClick(event) {
     const data = {
       headers: config,
-      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
     };
     axios
       .put(`reviews/${this.props.review.review_id}/helpful`, null, data)
@@ -68,12 +68,12 @@ class ReviewList extends React.Component {
         });
       })
       .catch((err) => {
-        console.error("Error", err);
+        console.error('Error', err);
       });
   }
 
   onSortChange(event) {
-    if (event.target.value === "relevant") {
+    if (event.target.value === 'relevant') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         if (a.date !== b.date) {
           var aDate = new Date(a.date);
@@ -84,12 +84,12 @@ class ReviewList extends React.Component {
         }
       });
       this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === "helpful") {
+    } else if (event.target.value === 'helpful') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return b.helpfulness - a.helpfulness;
       });
       this.setState({ reviews: sortedReviews });
-    } else if (event.target.value === "newest") {
+    } else if (event.target.value === 'newest') {
       var sortedReviews = this.state.reviews.sort((a, b) => {
         return new Date(b.date).valueOf() - new Date(a.date).valueOf();
       });

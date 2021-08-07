@@ -164,7 +164,7 @@ class App extends React.Component {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} justifyContent='space-around' container={true}>
             <span>
               SITE-WIDE ANNOUNCEMENT MESSAGE! -- SALE / DISCOUNT OFFER -- NEW
               PRODUCT HIGHLIGHT
