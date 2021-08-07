@@ -32,7 +32,6 @@ class ReviewList extends React.Component {
           data
         )
         .then((response) => {
-          console.log(response);
           this.setState({ reviews: response.data.results }, () => {
             var rating = 0;
             for (var i = 0; i < this.state.reviews.length; i++) {
