@@ -1,9 +1,9 @@
 /* eslint-disable indent */
-import React from 'react';
-import { Rating, Slider } from '@material-ui/core';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import axios from 'axios';
-import config from '../../config.js';
+import React from "react";
+import { Rating, Slider } from "@material-ui/core";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import axios from "axios";
+import config from "../../config.js";
 
 class ReviewSummary extends React.Component {
   constructor(props) {
@@ -13,55 +13,19 @@ class ReviewSummary extends React.Component {
       avgRating: 0,
       ratings: 0,
       characteristics: {},
-      sizeChars: [
-        { label: 'A size too small', value: 1 },
-        { label: '1/2 a size too small', value: 2 },
-        { label: 'Perfect', value: 3 },
-        { label: '1/2 a size too big', value: 4 },
-        { label: 'A size too wide', value: 5 },
-      ],
-      widthChars: [
-        { label: 'Too narrow', value: 1 },
-        { label: 'Slightly Narrow', value: 2 },
-        { label: 'Perfect', value: 3 },
-        { label: 'Slightly wide', value: 4 },
-        { label: 'Too wide', value: 5 },
-      ],
-      comfortChars: [
-        { label: 'Uncomfortable', value: 1 },
-        { label: 'Slightly uncomfortable', value: 2 },
-        { label: 'Ok', value: 3 },
-        { label: 'Comfortable', value: 4 },
-        { label: 'Perfect', value: 5 },
-      ],
-      qualityChars: [
-        { label: 'Poor', value: 1 },
-        { label: 'Below average', value: 2 },
-        { label: 'What I expected', value: 3 },
-        { label: 'Pretty great', value: 4 },
-        { label: 'Perfect', value: 5 },
-      ],
-      lengthChars: [
-        { label: 'Runs short', value: 1 },
-        { label: 'Runs slightly short', value: 2 },
-        { label: 'Perfect', value: 3 },
-        { label: 'Runs slightly long', value: 4 },
-        { label: 'Runs long', value: 5 },
-      ],
-      fitChars: [
-        { label: 'Runs tight', value: 1 },
-        { label: 'Runs slightly tight', value: 2 },
-        { label: 'Perfect', value: 3 },
-        { label: 'Runs slightly long', value: 4 },
-        { label: 'Runs long', value: 5 },
-      ],
+      sizeChars: props.chars.Size,
+      widthChars: props.chars.Width,
+      comfortChars: props.chars.Comfort,
+      qualityChars: props.chars.Quality,
+      lengthChars: props.chars.Length,
+      fitChars: props.chars.Fit,
     };
   }
 
   componentDidMount() {
     const data = {
       headers: config,
-      baseURL: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/',
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
     };
     this.setState({ currentItemId: this.props.currentItem.id }, () => {
       axios
@@ -88,7 +52,7 @@ class ReviewSummary extends React.Component {
           });
         })
         .catch((err) => {
-          console.error('Error from reviews get Request', err);
+          console.error("Error from reviews get Request", err);
         });
     });
   }
@@ -97,7 +61,7 @@ class ReviewSummary extends React.Component {
     return (
       <div id="reviews-summary">
         <h3 id="avg-rating">
-          {this.state.avgRating.toFixed(1)}{' '}
+          {this.state.avgRating.toFixed(1)}{" "}
           <Rating
             name="quarter-rating-read"
             size="large"
@@ -121,7 +85,7 @@ class ReviewSummary extends React.Component {
             <ProgressBar
               variant="success"
               now={(this.state.ratings[1] / this.state.totalRatings) * 100}
-            />{' '}
+            />{" "}
             <p className="numOfReviews">{this.state.ratings[1]}</p>
           </div>
           <div>
@@ -129,7 +93,7 @@ class ReviewSummary extends React.Component {
             <ProgressBar
               variant="success"
               now={(this.state.ratings[2] / this.state.totalRatings) * 100}
-            />{' '}
+            />{" "}
             <p className="numOfReviews">{this.state.ratings[2]}</p>
           </div>
           <div>
@@ -137,7 +101,7 @@ class ReviewSummary extends React.Component {
             <ProgressBar
               variant="success"
               now={(this.state.ratings[3] / this.state.totalRatings) * 100}
-            />{' '}
+            />{" "}
             <p className="numOfReviews">{this.state.ratings[3]}</p>
           </div>
           <div>
@@ -145,7 +109,7 @@ class ReviewSummary extends React.Component {
             <ProgressBar
               variant="success"
               now={(this.state.ratings[4] / this.state.totalRatings) * 100}
-            />{' '}
+            />{" "}
             <p className="numOfReviews">{this.state.ratings[4]}</p>
           </div>
           <div>
@@ -153,7 +117,7 @@ class ReviewSummary extends React.Component {
             <ProgressBar
               variant="success"
               now={(this.state.ratings[5] / this.state.totalRatings) * 100}
-            />{' '}
+            />{" "}
             <p className="numOfReviews">{this.state.ratings[5]}</p>
           </div>
         </div>
@@ -177,21 +141,54 @@ class ReviewSummary extends React.Component {
                   valueLabelDisplay="on"
                   size="small"
                   valueLabelFormat={(num) => {
-                    if (char === 'Size') {
+                    if (char === "Size") {
                       return this.state.sizeChars[Math.round(num)].label;
-                    } else if (char === 'Width') {
+                    } else if (char === "Width") {
                       return this.state.widthChars[Math.round(num)].label;
-                    } else if (char === 'Comfort') {
+                    } else if (char === "Comfort") {
                       return this.state.comfortChars[Math.round(num)].label;
-                    } else if (char === 'Quality') {
+                    } else if (char === "Quality") {
                       return this.state.qualityChars[Math.round(num)].label;
-                    } else if (char === 'Length') {
+                    } else if (char === "Length") {
                       return this.state.lengthChars[Math.round(num)].label;
-                    } else if (char === 'Fit') {
+                    } else if (char === "Fit") {
                       return this.state.fitChars[Math.round(num)].label;
                     }
                   }}
                 />
+                <div>
+                  {char === "Size" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.sizeChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.sizeChars[4].label}</p>
+                    </div>
+                  ) : char === "Width" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.widthChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.widthChars[4].label}</p>
+                    </div>
+                  ) : char === "Comfort" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.comfortChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.comfortChars[4].label}</p>
+                    </div>
+                  ) : char === "Quality" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.qualityChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.qualityChars[4].label}</p>
+                    </div>
+                  ) : char === "Length" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.lengthChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.lengthChars[4].label}</p>
+                    </div>
+                  ) : char === "Fit" ? (
+                    <div className="characteristicLabels">
+                      <p className="characteristicLabels">{this.state.fitChars[0].label}</p>{" "}
+                      <p className="characteristicLabels lastCharacteristic">{this.state.fitChars[4].label}</p>
+                    </div>
+                  ) : null}
+                </div>
                 <br></br>
               </div>
             );

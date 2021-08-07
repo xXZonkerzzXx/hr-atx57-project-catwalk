@@ -140,7 +140,6 @@
   line-height: 25px;
   padding-bottom: 10px;
   grid-column: 1 / 2;
-
 }
 .progress {
   grid-column: 1 / 2;
@@ -165,7 +164,16 @@
   width: 70px;
   border-radius: 50%;
 }
-
+.characteristicLabels {
+  display: inline;
+  margin-top: 0px;
+}
+.lastCharacteristic {
+  float: right;
+}
+.MuiSlider-root {
+  padding-bottom: 0px;
+}
 /* Review Photo Modal */
 
 .modal-content {
