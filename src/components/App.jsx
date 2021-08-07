@@ -7,13 +7,12 @@ import ReviewSummary from "./ReviewSummary.jsx";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 import config from "../../config.js";
-import Logo from './imgs/PlaidOPuss.png';
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
       currentItem: {
         category: "Ducks",
         name: "Mallard",
@@ -69,22 +68,7 @@ class App extends React.Component {
       },
       characteristics: []
     };
-    this.onSearchBarInput = this.onSearchBarInput.bind(this);
     this.getAvgRating = this.getAvgRating.bind(this);
-  }
-
-  onSearchBarInput(e) {
-    e.persist();
-    this.setState({
-      input: e.target.value,
-    });
-  }
-
-  async onSearchBarSubmit(e) {
-    e.preventDefault();
-    const currentItemSet = await this.setState({
-      currentItem: this.props.allItems[Number(this.props.input)]
-    });
   }
 
   async getAvgRating() {
@@ -108,9 +92,8 @@ class App extends React.Component {
     axios
       .get("/products", data)
       .then(async (response) => {
-        const itemsSet = await this.setState({
+        const currentItemSet = await this.setState({
           currentItem: response.data[0],
-          allItems: response.data
         });
         axios
           .get(`products/${this.state.currentItem.id}/styles`, data)
@@ -146,47 +129,10 @@ class App extends React.Component {
   render() {
     return (
       <main style={{ padding: 20 }}>
-        <Grid
-          container
-          spacing={5}
-          direction="row"
-          justifyContent="space-between"
-          alignItems="baseline"
-        >
-          <Grid item xs={3}>
-            <h1>Plaid O'Puss</h1>
-          </Grid>
-          <Grid item xs={3}>
-            <img id="logo" alt='plaidOPuss Logo' src={Logo}></img>
-          </Grid>
-          <Grid item xs={3}>
-            <form onSubmit={this.onSearchBarSubmit}>
-            <input className='search'
-              value={this.state.input}
-              onChange={this.onSearchBarInput}
-            ></input>
-            <button className='submit' type="submit">Search</button>
-            </form>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={12} justifyContent='space-around' container={true}>
-            <span>
-              SITE-WIDE ANNOUNCEMENT MESSAGE! -- SALE / DISCOUNT OFFER -- NEW
-              PRODUCT HIGHLIGHT
-            </span>
-          </Grid>
-        </Grid>
+
 
         <Overview avgRating={this.state.avgRating}
-          input={this.state.input}
-          allItems={this.state.allItems}
-          onSearchBarSubmit={this.onSearchBarSubmit}/>
+          allItems={this.state.allItems}/>
 
         <div className="reviews">
           <ReviewSummary currentItem={this.state.currentItem} chars={this.state.chars}/>
