@@ -41,10 +41,20 @@
   margin-right: 20px;
   border-radius: 10px;
   background-color: orange;
+  border: none;
+  height: 30px;
+  width: 100px;
+  font-size: 12px;
+  font-weight: 600;
 }
 #write-review {
   border-radius: 10px;
   background-color: orange;
+  border: none;
+  height: 30px;
+  width: 100px;
+  font-size: 12px;
+  font-weight: 600;
 }
 #review-list-buttons {
   grid-row: 3 / 4;
@@ -241,4 +251,7 @@
 }
 .selector {
   margin: 12px 20px 12px 50px;
+}
+.social-media {
+  margin: 20px;
 }
