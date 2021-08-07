@@ -259,6 +259,7 @@
 }
 .selector {
   margin: 12px 20px 12px 50px;
+  z-index: 11;
 }
 .social-media {
   margin: 20px;
