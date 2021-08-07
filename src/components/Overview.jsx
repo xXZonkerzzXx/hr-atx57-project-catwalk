@@ -8,6 +8,7 @@ import { Rating } from '@material-ui/core';
 import config from '../../config.js';
 import axios from 'axios';
 import DefaultImg from './DefaultImg.jsx';
+import Logo from './imgs/PlaidOPuss.png';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -18,7 +19,9 @@ class Overview extends React.Component {
       currentStyles: props.currentStyles || [],
       mainImgIndex: null,
       cartCount: 0,
-      styleIndex: 0
+      styleIndex: 0,
+      input: '',
+      allItems: []
     };
     this.getDefaultImg = this.getDefaultImg.bind(this);
     this.getQtySelector = this.getQtySelector.bind(this);
@@ -27,6 +30,8 @@ class Overview extends React.Component {
     this.getStyleName = this.getStyleName.bind(this);
     this.setStyleIndex = this.setStyleIndex.bind(this);
     this.setMainImgIndex = this.setMainImgIndex.bind(this);
+    this.onSearchBarSubmit = this.onSearchBarSubmit.bind(this);
+    this.onSearchBarInput = this.onSearchBarInput.bind(this);
   }
 
    componentDidMount() {
@@ -37,7 +42,8 @@ class Overview extends React.Component {
     axios.get('/products', data)
       .then(async (response) => {
         const currentItem = await this.setState({
-          currentItem: response.data[0]
+          currentItem: response.data[0],
+          allItems: response.data
         });
         axios
           .get(`products/${this.state.currentItem.id}/styles`, data)
@@ -84,6 +90,35 @@ class Overview extends React.Component {
     });
   }
 
+  onSearchBarInput(e) {
+    e.persist();
+    this.setState({
+      input: e.target.value,
+    });
+  }
+
+  async onSearchBarSubmit(e) {
+    e.preventDefault();
+    const data = {
+      headers: config,
+      baseURL: "https://app-hrsei-api.herokuapp.com/api/fec2/hratx/",
+    };
+    const currentItemSet = await this.setState({
+      currentItem: this.state.allItems[Number(this.state.input)]
+    });
+    axios
+      .get(`products/${this.state.currentItem.id}/styles`, data)
+      .then(async (content) => {
+        const currentStyles = await this.setState({
+          currentStyles: content.data.results,
+        });
+        const defaultImg = await this.getDefaultImg();
+      })
+      .catch((err) => {
+        console.error("Error from styles get request: ", err);
+      });
+  }
+
   getQtySelector() {
     let array = [];
     for (let j = 1; j < 15; j++) {
@@ -103,6 +138,42 @@ class Overview extends React.Component {
   render() {
     return (
       <div>
+        <Grid
+          container
+          spacing={5}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="baseline"
+        >
+          <Grid item xs={3}>
+            <h1>Plaid O'Puss</h1>
+          </Grid>
+          <Grid item xs={3}>
+            <img id="logo" alt='plaidOPuss Logo' src={Logo}></img>
+          </Grid>
+          <Grid item xs={3}>
+            <form onSubmit={this.onSearchBarSubmit}>
+            <input className='search'
+              value={this.state.input}
+              onChange={this.onSearchBarInput}
+            ></input>
+            <button className='submit' type="submit">Search</button>
+            </form>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item xs={12} justifyContent='space-around' container={true}>
+            <span>
+              SITE-WIDE ANNOUNCEMENT MESSAGE! -- SALE / DISCOUNT OFFER -- NEW
+              PRODUCT HIGHLIGHT
+            </span>
+          </Grid>
+        </Grid>
         <Grid
           container
           direction="row"
