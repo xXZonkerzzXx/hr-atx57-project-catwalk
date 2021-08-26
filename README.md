@@ -2,10 +2,16 @@
 
 ### Client facing application to serve up product details as well as information regarding ratings and reviews
 
+---
+
 ## Product Overview
+
+---
 
 
 ## Reviews
+
+---
 
  * Shows a list of the reviews for the selected product
  * Each review tile contains:
